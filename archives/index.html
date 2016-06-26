@@ -270,7 +270,7 @@
 
       <h1 class="post-title">
         
-            <a class="post-title-link" href="/cipuz87xu0002g0wz2sugee9b/" itemprop="url">
+            <a class="post-title-link" href="/cipw68xij0003lswzpm40eve8/" itemprop="url">
               
                 <span itemprop="name">猪头怪那么傻活该受欺负</span>
               
@@ -307,7 +307,7 @@
 
       <h1 class="post-title">
         
-            <a class="post-title-link" href="/cipuz87xq0001g0wz2lk4xnk2/" itemprop="url">
+            <a class="post-title-link" href="/cipw68xie0001lswzoef7tmit/" itemprop="url">
               
                 <span itemprop="name">test_post4</span>
               
@@ -344,7 +344,7 @@
 
       <h1 class="post-title">
         
-            <a class="post-title-link" href="/cipuz87xv0003g0wzp9k2f0mq/" itemprop="url">
+            <a class="post-title-link" href="/cipw68xih0002lswzhmnxc6z9/" itemprop="url">
               
                 <span itemprop="name">哥布林和小人鱼</span>
               
@@ -381,7 +381,7 @@
 
       <h1 class="post-title">
         
-            <a class="post-title-link" href="/cipuz87xj0000g0wz0k7296af/" itemprop="url">
+            <a class="post-title-link" href="/cipw68xi50000lswzabozyqga/" itemprop="url">
               
                 <span itemprop="name">Hello World</span>
               
@@ -414,7 +414,23 @@
           
 
 
-          
+          <% if (theme.duoshuo_shortname && page.comments){ %>
+<!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread"></div>
+<script type="text/javascript">
+  var duoshuoQuery = {short_name: '<%= theme.duoshuo_shortname %>' };
+  (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';
+      ds.async = true;
+      ds.src = 'http://static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script>
+<!-- Duoshuo Comment END -->
+<% } %>
 
         </div>
         
@@ -583,9 +599,28 @@
 
   
 
+  
+    
+  
 
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"JasenpanHexo"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
 
   
+    
+  
+
+
 
 
 
