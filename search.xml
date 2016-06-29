@@ -5,8 +5,9 @@
     
     <entry>
       <title><![CDATA[Node中的module和require]]></title>
-      <url>http://yoursite.com/ciq0iseb7000368wzncrjrh0d/</url>
+      <url>http://yoursite.com/ciq0iwuxe0002tswzcp17y7da/</url>
       <content type="html"><![CDATA[<h2 id="Node中的模块"><a href="#Node中的模块" class="headerlink" title="Node中的模块"></a>Node中的模块</h2><p>在Node中，很大的一个组成部分就是模块，其中有从npm上下载的第三方模块以及我们自己写的模块。<br>NodeJS在模块化方面使用的是exports和require来导入和导出。</p>
+<a id="more"></a>
 <p>这里我写了几个小例子来和大家分享一下exports的几种简单方法。文件目录大概是这样</p>
 <blockquote>
 <ul>
@@ -75,14 +76,14 @@
     
     <entry>
       <title><![CDATA[猪头怪那么傻活该受欺负]]></title>
-      <url>http://yoursite.com/ciq0isebg000768wzhr0q643q/</url>
-      <content type="html"><![CDATA[<p>哈哈哈哈<br><a id="more"></a><br><img src="/ciq0isebg000768wzhr0q643q/ztg.jpg" alt="猪头怪" title="猪头怪"></p>
+      <url>http://yoursite.com/ciq0iwuxr0007tswzdcbtf6bp/</url>
+      <content type="html"><![CDATA[<p>哈哈哈哈<br><a id="more"></a><br><img src="/ciq0iwuxr0007tswzdcbtf6bp/ztg.jpg" alt="猪头怪" title="猪头怪"></p>
 ]]></content>
     </entry>
     
     <entry>
       <title><![CDATA[test_post4]]></title>
-      <url>http://yoursite.com/ciq0isebk000868wzra2fxrvy/</url>
+      <url>http://yoursite.com/ciq0iwuxv0008tswzuw8i0twj/</url>
       <content type="html"><![CDATA[<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><blockquote>
 <p>引用的内容: This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,<br>          consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.<br>          Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.</p>
 <p>Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse<br>id sem consectetuer libero luctus adipiscing.</p>
@@ -106,7 +107,7 @@
     
     <entry>
       <title><![CDATA[哥布林和小人鱼]]></title>
-      <url>http://yoursite.com/ciq0iseb9000468wzceffvkb5/</url>
+      <url>http://yoursite.com/ciq0iwuxh0004tswzl3eigakl/</url>
       <content type="html"><![CDATA[<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><blockquote>
 <p>引用的内容: This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,<br>          consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.<br>          Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.</p>
 <p>Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse<br>id sem consectetuer libero luctus adipiscing.</p>
@@ -130,7 +131,7 @@
     
     <entry>
       <title><![CDATA[Hello World]]></title>
-      <url>http://yoursite.com/ciq0iseb2000168wzgvad6hyk/</url>
+      <url>http://yoursite.com/ciq0iwux50000tswz1soauoid/</url>
       <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
