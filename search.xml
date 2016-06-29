@@ -4,15 +4,90 @@
   
     
     <entry>
+      <title><![CDATA[Node中的module和require]]></title>
+      <url>http://yoursite.com/ciq0io4yw0001nswzjp9stxfq/</url>
+      <content type="html"><![CDATA[<p>##Node中的模块##<br>在Node中，很大的一个组成部分就是模块，其中有从npm上下载的第三方模块以及我们自己写的模块。<br>NodeJS在模块化方面使用的是exports和require来导入和导出。</p>
+<p>这里我写了几个小例子来和大家分享一下exports的几种简单方法。文件目录大概是这样</p>
+<blockquote>
+<ul>
+<li>modules/<ul>
+<li>hello1.js</li>
+<li>hello2.js</li>
+<li>hello3.js</li>
+<li>hello4.js<br>-hello5.js</li>
+</ul>
+</li>
+<li>app.js</li>
+</ul>
+</blockquote>
+<p>###1.直接导出###</p>
+<ul>
+<li><p>./modules/hello1.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">module.exports = function()&#123;</span><br><span class="line">    console.log(&apos;hello world 1&apos;)</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这是一种很简单的到处方法，module.expots可以理解成是一个空对象（{}），而导出的方法就是直接用自己写好的function或者<br>object来替换这个对象。</p>
+</li>
+<li><p>./app.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var hello1 = require(&apos;./modules/hello1&apos;);</span><br><span class="line">hello1();</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>###2.作为exports的一个属性导出###</p>
+<ul>
+<li><p>./modules/hello2.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var hello = function()&#123;</span><br><span class="line">    console.log(&apos;hello world 2&apos;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">module.exports.hello = hello;</span><br></pre></td></tr></table></figure>
+<p>为module.exports增加一个名为hello的属性</p>
+</li>
+<li><p>./app.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var hello2 = require(&apos;./modules/hello2&apos;);</span><br><span class="line">hello2.hello();</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>###3. 用一个实例来替换module.exports###</p>
+<ul>
+<li><p>./modules/hello3.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var hello3 = function()&#123;</span><br><span class="line">    this.word = &apos;hello world 3&apos;;</span><br><span class="line">    this.hello = function()&#123;</span><br><span class="line">        console.log(this.word)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">module.exports = new hello3();</span><br></pre></td></tr></table></figure>
+<p>这里可以看到，首先我们写一个构造函数用来生成实例，然后把一个新生成的实例赋给module.exports，就像这样：</p>
+</li>
+<li><p>./app.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var hello3a = require(&apos;./modules/hello3&apos;);</span><br><span class="line">hello3a.hello();</span><br></pre></td></tr></table></figure>
+<p>但是，如果我们改变hello3a的属性会怎么样呢？按理说实例都是各自独立的，hello3a的属性改变了应该不会影响其他的实例啊，<br>让我们来做个实验吧</p>
+</li>
+<li>./app.js<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var hello3a = require(&apos;./modules/hello3&apos;);</span><br><span class="line">hello3a.hello();</span><br><span class="line">//这里word属性已经改变了</span><br><span class="line">hello3a.word = &apos;Good bye&apos;;</span><br><span class="line"></span><br><span class="line">var hello3b = require(&apos;./modules/hello3&apos;);</span><br><span class="line">hello3b.hello();</span><br><span class="line"></span><br><span class="line">//输出是这样的</span><br><span class="line">//hello world 3</span><br><span class="line">//Good bye</span><br></pre></td></tr></table></figure>
+为什么啊？！我不是只改变了hello3a的word属性吗，为什么hello3b也会受到影响？！<br>其实，module.exports是有缓存机制的，只要一个模块生成了一次，之后所有对这个模块的require都会判断是否存在这个模块的缓存，<br>如果有，就会返回这份缓存。也就是说，不管一个模块被require多少次，其实都是require的同一个模块。那么上面的例子我该怎么让这两个实例<br>真正的做到独立存在呢？</li>
+</ul>
+<p>###4. 导出一个构造函数###</p>
+<ul>
+<li><p>./modules/hello4.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var HelloCreator = function()&#123;</span><br><span class="line">    this.word = &apos;hello world 4&apos;;</span><br><span class="line">    this.hello = function()&#123;</span><br><span class="line">        console.log(this.word);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">module.exports = HelloCreator;</span><br></pre></td></tr></table></figure>
+<p>其实很简单，只要导出那个构造函数就行了，谁需要实例就去自己new吧</p>
+</li>
+<li><p>./app.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var Hello = require(&apos;./modules/hello4&apos;);</span><br><span class="line">var hello4a = new Hello();</span><br><span class="line"></span><br><span class="line">hello4a.word = &apos;Good bye&apos;;</span><br><span class="line">hello4a.hello();</span><br><span class="line"></span><br><span class="line">var hello4b = new Hello();</span><br><span class="line">hello4b.hello();</span><br></pre></td></tr></table></figure>
+<p>当然了，我们不能直接使用这个模块，因为它仅仅只是个构造函数，所以只要new一下就可以了。</p>
+</li>
+</ul>
+<p>###5. 只把想要暴露的方法和属性暴露出去###</p>
+<ul>
+<li><p>./modules/hello5.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var word = &apos;Hello world 5&apos;;</span><br><span class="line">var word2 = &apos;Good bye&apos;;</span><br><span class="line"></span><br><span class="line">var hello = function()&#123;</span><br><span class="line">    console.log(word);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var bye = function()&#123;</span><br><span class="line">    console.log(word2);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    hello: hello,</span><br><span class="line">    bye: bye</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>在这个例子里，我们只把hello和bye这两个方法暴露给外界，对于其他的属性和方法，外界是无法访问到的。这样做在某种意义上保证了隐秘数据不会被外界<br>访问到，而且还增加了模块的可控性。</p>
+</li>
+<li><p>./app.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var hello5 = require(&apos;./modules/hello5&apos;);</span><br><span class="line">hello5.hello();</span><br><span class="line">hello5.bye();</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>###总结###<br>定义模块和获得模块的方法有很多，以上只是列举了几种比较常见的，希望能对新入坑的小伙伴们有所帮助。其实我认为没有哪种方法是绝对好或者绝对不好的<br>具体使用哪种方法写模块或者导出模块还是要看具体的业务需求。</p>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[猪头怪那么傻活该受欺负]]></title>
-      <url>http://yoursite.com/cipwdtyvn00044kwzr7o4m758/</url>
-      <content type="html"><![CDATA[<p>哈哈哈哈<br><a id="more"></a><br><img src="/cipwdtyvn00044kwzr7o4m758/ztg.jpg" alt="猪头怪" title="猪头怪"></p>
+      <url>http://yoursite.com/ciq0io4za0002nswz63b2iwi4/</url>
+      <content type="html"><![CDATA[<p>哈哈哈哈<br><a id="more"></a><br><img src="/ciq0io4za0002nswz63b2iwi4/ztg.jpg" alt="猪头怪" title="猪头怪"></p>
 ]]></content>
     </entry>
     
     <entry>
       <title><![CDATA[test_post4]]></title>
-      <url>http://yoursite.com/cipwdtyvb00004kwz6vhwl2wg/</url>
+      <url>http://yoursite.com/ciq0io4zl0005nswz9bdaa6hx/</url>
       <content type="html"><![CDATA[<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><blockquote>
 <p>引用的内容: This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,<br>          consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.<br>          Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.</p>
 <p>Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse<br>id sem consectetuer libero luctus adipiscing.</p>
@@ -36,7 +111,7 @@
     
     <entry>
       <title><![CDATA[哥布林和小人鱼]]></title>
-      <url>http://yoursite.com/cipwdtyvo00054kwz8uco0q0k/</url>
+      <url>http://yoursite.com/ciq0io53h000inswznmqna1su/</url>
       <content type="html"><![CDATA[<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><blockquote>
 <p>引用的内容: This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,<br>          consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.<br>          Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.</p>
 <p>Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse<br>id sem consectetuer libero luctus adipiscing.</p>
@@ -60,7 +135,7 @@
     
     <entry>
       <title><![CDATA[Hello World]]></title>
-      <url>http://yoursite.com/cipwdtyvj00024kwzpsa3xtqz/</url>
+      <url>http://yoursite.com/ciq0io53f000gnswzzcv7kkxw/</url>
       <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
