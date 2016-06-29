@@ -1,0 +1,842 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="NodeJS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Node中的事件发布与订阅事件的发布和订阅系统(event)是NodeJS中的一个极为重要的系统，但是这个系统对于很多刚入坑的小伙伴来说可能难以理解，这篇博客会为刚入坑的小伙伴们简单介绍一下事件（event），并且一步一步的写一个“山寨版”的事件系统。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node中的事件系统">
+<meta property="og:url" content="http://yoursite.com/ciq0pwthp0001hcwz7pw35se7/index.html">
+<meta property="og:site_name" content="哥布林的小山洞">
+<meta property="og:description" content="Node中的事件发布与订阅事件的发布和订阅系统(event)是NodeJS中的一个极为重要的系统，但是这个系统对于很多刚入坑的小伙伴来说可能难以理解，这篇博客会为刚入坑的小伙伴们简单介绍一下事件（event），并且一步一步的写一个“山寨版”的事件系统。">
+<meta property="og:updated_time" content="2016-06-29T10:06:43.369Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Node中的事件系统">
+<meta name="twitter:description" content="Node中的事件发布与订阅事件的发布和订阅系统(event)是NodeJS中的一个极为重要的系统，但是这个系统对于很多刚入坑的小伙伴来说可能难以理解，这篇博客会为刚入坑的小伙伴们简单介绍一下事件（event），并且一步一步的写一个“山寨版”的事件系统。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/ciq0pwthp0001hcwz7pw35se7/"/>
+
+  <title> Node中的事件系统 | 哥布林的小山洞 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">哥布林的小山洞</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Node中的事件系统
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-29T18:19:09+10:00" content="2016-06-29">
+              2016-06-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/NodeJS/" itemprop="url" rel="index">
+                    <span itemprop="name">NodeJS</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/ciq0pwthp0001hcwz7pw35se7/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="ciq0pwthp0001hcwz7pw35se7/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Node中的事件发布与订阅"><a href="#Node中的事件发布与订阅" class="headerlink" title="Node中的事件发布与订阅"></a>Node中的事件发布与订阅</h2><p>事件的发布和订阅系统(event)是NodeJS中的一个极为重要的系统，但是这个系统对于很多刚入坑的小伙伴来说可能难以理解，<br>这篇博客会为刚入坑的小伙伴们简单介绍一下事件（event），并且一步一步的写一个“山寨版”的事件系统。</p>
+<a id="more"></a>
+<h3 id="1-什么是事件系统"><a href="#1-什么是事件系统" class="headerlink" title="1. 什么是事件系统"></a>1. 什么是事件系统</h3><p>事件系统其实就是NodeJS中的一个模块（Events），这个模块使得NodeJS具有对事件的监听和触发的动能。<br>比如说，我们可以制定一个机制，一旦一个文件读取完毕，我们会做什么事情，比如将文件内容打印出来或者进行修改。<br>事件系统是NodeJS中的一个极其重要的系统，因为Javascript语言原本是前端的脚本语言，对于这种事件机制支持<br>比较弱，而这种机制又是后端语言必备的，所以NodeJS实现了一套很完善的事件系统。许多初识Node的同学可能<br>会觉得事件机制比较难理解，但其实真没有那么难。</p>
+<h3 id="2-如何使用事件系统"><a href="#2-如何使用事件系统" class="headerlink" title="2. 如何使用事件系统"></a>2. 如何使用事件系统</h3><p>在NodeJS中有个模块叫做Events，它的作用就是让我们很容易的去使用事件。</p>
+<ol>
+<li><p>首先，要导入events模块。由于这个模块是一个构造函数，所以我们需要new一个event实例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var Events = require(&apos;events&apos;);</span><br><span class="line"></span><br><span class="line">var myEvent = new Events();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在这个实例的原型上有很多方法，这里只说两个最简单的，其他的可以在<a href="https://nodejs.org/dist/latest-v6.x/docs/api/events.html" target="_blank" rel="external">NodeJS的官方API</a>上面看到。<br><em>on</em>方法负责定义事件并且绑定到一个监听者（listener）上，就像这样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">myEvent.on(&apos;hello&apos;, function()&#123;</span><br><span class="line">    console.log(&apos;hello back&apos;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这里，我们定义了一个名为hello的事件，而监听者一旦发现这个事件被触发了，就会执行function里面的内容。</p>
+</li>
+<li><p>一个事件上可以绑定多个监听者，所以我们再为这个名为hello的事件绑定一个吧</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">myEvent.on(&apos;hello&apos;, function()&#123;</span><br><span class="line">    console.log(&apos;Ignored&apos;)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>事件绑定好了，我们来触发一下这个事件，看看我们绑定的监听者会不会生效，然而触发事件我们<br>只需要调用它的emit方法就可以了，就像这样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">myEvent.emit(&apos;hello&apos;);</span><br></pre></td></tr></table></figure>
+<p>执行的结果如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hello back</span><br><span class="line">Ignored</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="3-自己写一个山寨版的事件系统"><a href="#3-自己写一个山寨版的事件系统" class="headerlink" title="3.自己写一个山寨版的事件系统"></a>3.自己写一个山寨版的事件系统</h3><p>在学习编程中有一个很好的方法，就是 “山寨”，或者发明轮子，其实就是通过实现一个已经有的功能来加深对这个<br>功能的理解，那么我们也来“山寨”一个最简单的事件系统吧，来看看事件到底是个什么东西。</p>
+<ol>
+<li><p>首先，我们知道了NodeJS的事件模块是个构造函数，所以我们也来写一个构造函数。这里我们给一个空对象，这个对象会<br>用来存放各类的事件（event），比如之前我们用过的hello事件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function Events()&#123;</span><br><span class="line">    this.events = &#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>刚才我们一共使用了两个方法，on和emit对吧，这里我们也要在原型上扩展这两个方法，以达到让“山寨版”可以像“正版”一样工作。<br>首先on可以接受两个参数，一个是事件的名字（hello），另一个是事件触发时需要执行的方法，而emit只需要接受一个事件名就可以了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Events.prototype.on = function(type, responseFunction)&#123;</span><br><span class="line">  </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Events.prototype.emit = function(type)&#123;</span><br><span class="line">    </span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>想想当on方法执行时发生了什么，它把一个方法绑定到一个事件上了，所以大概是这样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Events.prototype.on = function(type, responseFunction)&#123;</span><br><span class="line">    this.events[type] = responseFunction;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这里说明一下，在</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function Events()&#123;</span><br><span class="line">    this.events = &#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>中，this.events这个object大概会是一个这样的结构，每个受到绑定的事件都会对应相应的方法，就像这样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    hello: function()&#123;...&#125;,</span><br><span class="line">    fileLoaded: function()&#123;...&#125;,</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>比如，当hello被触发时，里面的function就会执行。</p>
+</li>
+<li><p>同理，我们再来想想当调用了emit方法时发生了什么，对，事件对应的方法被执行了，所以大概会是这样，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Events.prototype.emit = function(type)&#123;</span><br><span class="line">    this.events[type]();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>注意，这里说明一下，我们调用某个object上的一个方法或者访问这个object上的某个属性时，可以通过两种方法：<br>一是通过打点的方法，比如<code>obj.xxx</code>（属性），<code>obj.xxx()</code>（方法）；<br>二是通过方括号的方法，比如<code>obj[&#39;xxx&#39;]</code>（属性），<code>obj[&#39;xxx&#39;]()</code>（方法）。<br>但是这里我们只能用后者，因为我们不是要调用this.events的type属性而是要调用通过type传进来的那个属性，<br>换句话说，type是个变量，它的值才是我们真正要调用的，比如events.hello。</p>
+</li>
+<li><p>好了，这样就差不多了。哦，对了！一会别的文件要引用这个模块，所以我们要导出一下，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">module.exports = Events;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>来执行一下吧，把刚才的<code>require(&#39;events&#39;)</code>换成我们的“山寨版”吧<code>require(&#39;./modules/myEvents&#39;)</code>，<br>走起！！！<br>输出：<br><code>Ignored</code><br>Yeah！！！<br>等等，好像哪里不对啊，刚才明明绑定了两个监听者现在怎么只输出了一个啊？这什么情况。。。</p>
+</li>
+</ol>
+<h3 id="3-山寨版改造"><a href="#3-山寨版改造" class="headerlink" title="3.山寨版改造"></a>3.山寨版改造</h3><ol>
+<li><p>通过分析刚才我们写的代码，很明显，每次我们调用on方法时，会给event实例重新赋值，换句话说，之后的会覆盖之前的，<br>所以要让我们的“山寨版具有和”正版一样对一个事件多次绑定的功能，我们需要用一个集合来存放同一事件绑定的所有监听者，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Events.prototype.on = function(type, responseFunction)&#123;</span><br><span class="line">    if(this.events[type])&#123;</span><br><span class="line">        this.events[type].push(responseFunction);</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        this.events[type] = [];</span><br><span class="line">        this.events[type].push(responseFunction);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这里的逻辑是，如果一个事件（event）之前已经定义过了，那我们就直接在这个事件所对应的监听者数组里push新绑定的方法，<br>如果没有定义过，那么就定义一个空监听者数组，然后把对应的方法push进去。说白了，第一次我们绑定hello这个事件的时候，<br>实例的events上并没有这个叫hello的属性，那么我们定义一个数组，然后把hello对应的方法push进去，第二次我们发现已经<br>有hello了，就在相应的数组里push一个新的方法。hello这个事件大概是这样的<br>第一次：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//on执行前</span><br><span class="line">events:&#123;&#125;</span><br><span class="line">//on执行后</span><br><span class="line">events:&#123;</span><br><span class="line">    hello: [function()&#123;...&#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第二次</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//on执行前</span><br><span class="line">events:&#123;</span><br><span class="line">    hello: [function()&#123;...&#125;]</span><br><span class="line">&#125;</span><br><span class="line">//on执行后</span><br><span class="line">events:&#123;</span><br><span class="line">    hello: [function()&#123;...&#125;, function()&#123;...&#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以对这段代码进行一下简化，说白了就是想少写点字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Events.prototype.on = function(type, responseFunction)&#123;</span><br><span class="line">    this.events[type] = this.events[type] || [];</span><br><span class="line">    this.events[type].push(responseFunction);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>OK，on这个方法就大概写完了。</p>
+</li>
+<li><p>既然events.hello已经是一个包含了多个function的数组，所以我们不能像之前那样<br><code>this.events[type]();</code>简单粗暴的直接调用了，我们需要执行数组里的每一个function，也就是<br>对这个数组进行一下遍历，这里有很多种方法，我们用forEach，因为效率比较高。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Events.prototype.emit = function(type)&#123;</span><br><span class="line">    this.events[type].forEach(function(responseFunc)&#123;</span><br><span class="line">        responseFunc();</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>好了，到这里这个“山寨版”也就差不多完成了，我们来跑跑吧：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hello back</span><br><span class="line">Ignored</span><br></pre></td></tr></table></figure>
+<p>非常好！这样我们的“山寨版”也能绑定多个监听者了。</p>
+</li>
+</ol>
+<p>完整代码如下<br>./modules/myEvents.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function Events()&#123;</span><br><span class="line">    this.events = &#123;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Events.prototype.on = function(type, responseFunction)&#123;</span><br><span class="line">    this.events[type] = this.events[type] || [];</span><br><span class="line">    this.events[type].push(responseFunction);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Events.prototype.emit = function(type)&#123;</span><br><span class="line">    this.events[type].forEach(function(responseFunc)&#123;</span><br><span class="line">        responseFunc();</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">module.exports = Events;</span><br></pre></td></tr></table></figure></p>
+<p>./app.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var Events = require(&apos;./modules/myEvents&apos;);</span><br><span class="line"></span><br><span class="line">var myEvent = new Events();</span><br><span class="line"></span><br><span class="line">myEvent.on(&apos;hello&apos;, function()&#123;</span><br><span class="line">    console.log(&apos;hello back&apos;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">myEvent.on(&apos;hello&apos;, function()&#123;</span><br><span class="line">    console.log(&apos;Ignored&apos;)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">myEvent.emit(&apos;hello&apos;);</span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<h3 id="4-总结"><a href="#4-总结" class="headerlink" title="4.总结"></a>4.总结</h3><p>我们写了一个“山寨版”的事件绑定和发布系统，但是山寨毕竟是山寨，我们看看NodeJS源码中的Events模块。。。<br><strong>我滴神呐。。。同样是程序猿，代码的差距咋就这么大捏。。。</strong><br>那是当然，人家的代码有很多我们没有的方法，而且人家有很多异常处理等等。但是如果你仔细看正版的on和emit方法<br>会发现其实他们实现的方法和我们的差不太多，那是当然，我是看过源码才。。。我是说。。。我是受到了源码的启发<br>才写的这篇博客。</p>
+<h3 id="5-参考资料"><a href="#5-参考资料" class="headerlink" title="5.参考资料"></a>5.参考资料</h3><ol>
+<li><a href="https://nodejs.org/dist/latest-v6.x/docs/api/events.html" target="_blank" rel="external">官方文档</a></li>
+<li><a href="https://github.com/nodejs/node" target="_blank" rel="external">NodeJS源码</a></li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NodeJS/" rel="tag">#NodeJS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/ciq0pwthz0006hcwza5rdvdl7/" rel="next" title="Node中的module和require">
+                <i class="fa fa-chevron-left"></i> Node中的module和require
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="ciq0pwthp0001hcwz7pw35se7/"
+           data-title="Node中的事件系统" data-url="http://yoursite.com/ciq0pwthp0001hcwz7pw35se7/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Jasen PAN" />
+          <p class="site-author-name" itemprop="name">Jasen PAN</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Node中的事件发布与订阅"><span class="nav-number">1.</span> <span class="nav-text">Node中的事件发布与订阅</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-什么是事件系统"><span class="nav-number">1.1.</span> <span class="nav-text">1. 什么是事件系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-如何使用事件系统"><span class="nav-number">1.2.</span> <span class="nav-text">2. 如何使用事件系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-自己写一个山寨版的事件系统"><span class="nav-number">1.3.</span> <span class="nav-text">3.自己写一个山寨版的事件系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-山寨版改造"><span class="nav-number">1.4.</span> <span class="nav-text">3.山寨版改造</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-总结"><span class="nav-number">1.5.</span> <span class="nav-text">4.总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-参考资料"><span class="nav-number">1.6.</span> <span class="nav-text">5.参考资料</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jasen PAN</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"JasenpanHexo"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+
+</body>
+</html>
