@@ -4,12 +4,90 @@
   
     
     <entry>
+      <title><![CDATA[Node中的事件系统]]></title>
+      <url>http://yoursite.com/ciq0pkzzl0003u8wz29ctg5lj/</url>
+      <content type="html"><![CDATA[<h2 id="Node中的事件发布与订阅"><a href="#Node中的事件发布与订阅" class="headerlink" title="Node中的事件发布与订阅"></a>Node中的事件发布与订阅</h2><p>在Node中，很大的一个组成部分就是模块，其中有Node中的core模块，有从npm上下载的第三方模块以及我们自己写的模块。<br>NodeJS在模块化方面使用的是exports和require来导入和导出。</p>
+<a id="more"></a>
+<h3 id="1-什么是事件系统"><a href="#1-什么是事件系统" class="headerlink" title="1. 什么是事件系统"></a>1. 什么是事件系统</h3><p>事件系统其实就是NodeJS中的一个模块（Events），这个模块使得NodeJS具有对事件的监听和触发的动能。<br>比如说，我们可以制定一个机制，一旦一个文件读取完毕，我们会做什么事情，比如将文件内容打印出来或者进行修改。<br>事件系统是NodeJS中的一个极其重要的系统，因为Javascript语言原本是前端的脚本语言，对于这种事件机制支持<br>比较弱，而这种机制又是后端语言必备的，所以NodeJS实现了一套很完善的事件系统。许多初识Node的同学可能<br>会觉得事件机制比较难理解，但其实真没有那么难。</p>
+<h3 id="2-如何使用事件系统"><a href="#2-如何使用事件系统" class="headerlink" title="2. 如何使用事件系统"></a>2. 如何使用事件系统</h3><p>在NodeJS中有个模块叫做Events，它的作用就是让我们很容易的去使用事件。</p>
+<ol>
+<li><p>首先，要导入events模块。由于这个模块是一个构造函数，所以我们需要new一个event实例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var Events = require(&apos;events&apos;);</span><br><span class="line"></span><br><span class="line">var myEvent = new Events();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在这个实例的原型上有很多方法，这里只说两个最简单的，其他的可以在<a href="https://nodejs.org/dist/latest-v6.x/docs/api/events.html" target="_blank" rel="external">NodeJS的官方API</a>上面看到。<br><em>on</em>方法负责定义事件并且绑定到一个监听者（listener）上，就像这样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">myEvent.on(&apos;hello&apos;, function()&#123;</span><br><span class="line">    console.log(&apos;hello back&apos;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>这里，我们定义了一个名为hello的事件，而监听者一旦发现这个事件被触发了，就会执行function里面的内容。</p>
+</li>
+<li><p>一个事件上可以绑定多个监听者，所以我们再为这个名为hello的事件绑定一个吧</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">myEvent.on(&apos;hello&apos;, function()&#123;</span><br><span class="line">    console.log(&apos;Ignored&apos;)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>事件绑定好了，我们来触发一下这个事件，看看我们绑定的监听者会不会生效，然而触发事件我们<br>只需要调用它的emit方法就可以了，就像这样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">myEvent.emit(&apos;hello&apos;);</span><br></pre></td></tr></table></figure>
+<p>执行的结果如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hello back</span><br><span class="line">Ignored</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="3-自己写一个山寨版的事件系统"><a href="#3-自己写一个山寨版的事件系统" class="headerlink" title="3.自己写一个山寨版的事件系统"></a>3.自己写一个山寨版的事件系统</h3><p>在学习编程中有一个很好的方法，就是 “山寨”，或者发明轮子，其实就是通过实现一个已经有的功能来加深对这个<br>功能的理解，那么我们也来“山寨”一个最简单的事件系统吧，来看看事件到底是个什么东西。</p>
+<ol>
+<li><p>首先，我们知道了NodeJS的事件模块是个构造函数，所以我们也来写一个构造函数。这里我们给一个空对象，这个对象会<br>用来存放各类的事件（event），比如之前我们用过的hello事件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function Events()&#123;</span><br><span class="line">    this.events = &#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>刚才我们一共使用了两个方法，on和emit对吧，这里我们也要在原型上扩展这两个方法，以达到让“山寨版”可以像“正版”一样工作。<br>首先on可以接受两个参数，一个是事件的名字（hello），另一个是事件触发时需要执行的方法，而emit只需要接受一个事件名就可以了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Events.prototype.on = function(type, responseFunction)&#123;</span><br><span class="line">  </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Events.prototype.emit = function(type)&#123;</span><br><span class="line">    </span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>想想当on方法执行时发生了什么，它把一个方法绑定到一个事件上了，所以大概是这样的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Events.prototype.on = function(type, responseFunction)&#123;</span><br><span class="line">    this.events[type] = responseFunction;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这里说明一下，在</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function Events()&#123;</span><br><span class="line">    this.events = &#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>中，this.events这个object大概会是一个这样的结构，每个受到绑定的事件都会对应相应的方法，就像这样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    hello: function()&#123;...&#125;,</span><br><span class="line">    fileLoaded: function()&#123;...&#125;,</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>比如，当hello被触发时，里面的function就会执行。</p>
+</li>
+<li><p>同理，我们再来想想当调用了emit方法时发生了什么，对，事件对应的方法被执行了，所以大概会是这样，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Events.prototype.emit = function(type)&#123;</span><br><span class="line">    this.events[type]();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>注意，这里说明一下，我们调用某个object上的一个方法或者访问这个object上的某个属性时，可以通过两种方法：<br>一是通过打点的方法，比如<code>obj.xxx</code>（属性），<code>obj.xxx()</code>（方法）；<br>二是通过方括号的方法，比如<code>obj[&#39;xxx&#39;]</code>（属性），<code>obj[&#39;xxx&#39;]()</code>（方法）。<br>但是这里我们只能用后者，因为我们不是要调用this.events的type属性而是要调用通过type传进来的那个属性，<br>换句话说，type是个变量，它的值才是我们真正要调用的，比如events.hello。</p>
+</li>
+<li><p>好了，这样就差不多了。哦，对了！一会别的文件要引用这个模块，所以我们要导出一下，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">module.exports = Events;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>来执行一下吧，把刚才的<code>require(&#39;events&#39;)</code>换成我们的“山寨版”吧<code>require(&#39;./modules/myEvents&#39;)</code>，<br>走起！！！<br>输出：<br><code>Ignored</code><br>Yeah！！！<br>等等，好像哪里不对啊，刚才明明绑定了两个监听者现在怎么只输出了一个啊？这什么情况。。。</p>
+</li>
+</ol>
+<h3 id="3-山寨版改造"><a href="#3-山寨版改造" class="headerlink" title="3.山寨版改造"></a>3.山寨版改造</h3><ol>
+<li><p>通过分析刚才我们写的代码，很明显，每次我们调用on方法时，会给event实例重新赋值，换句话说，之后的会覆盖之前的，<br>所以要让我们的“山寨版具有和”正版一样对一个事件多次绑定的功能，我们需要用一个集合来存放同一事件绑定的所有监听者，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Events.prototype.on = function(type, responseFunction)&#123;</span><br><span class="line">    if(this.events[type])&#123;</span><br><span class="line">        this.events[type].push(responseFunction);</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        this.events[type] = [];</span><br><span class="line">        this.events[type].push(responseFunction);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>这里的逻辑是，如果一个事件（event）之前已经定义过了，那我们就直接在这个事件所对应的监听者数组里push新绑定的方法，<br>如果没有定义过，那么就定义一个空监听者数组，然后把对应的方法push进去。说白了，第一次我们绑定hello这个事件的时候，<br>实例的events上并没有这个叫hello的属性，那么我们定义一个数组，然后把hello对应的方法push进去，第二次我们发现已经<br>有hello了，就在相应的数组里push一个新的方法。hello这个事件大概是这样的<br>第一次：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//on执行前</span><br><span class="line">events:&#123;&#125;</span><br><span class="line">//on执行后</span><br><span class="line">events:&#123;</span><br><span class="line">    hello: [function()&#123;...&#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第二次</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//on执行前</span><br><span class="line">events:&#123;</span><br><span class="line">    hello: [function()&#123;...&#125;]</span><br><span class="line">&#125;</span><br><span class="line">//on执行后</span><br><span class="line">events:&#123;</span><br><span class="line">    hello: [function()&#123;...&#125;, function()&#123;...&#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以对这段代码进行一下简化，说白了就是想少写点字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Events.prototype.on = function(type, responseFunction)&#123;</span><br><span class="line">    this.events[type] = this.events[type] || [];</span><br><span class="line">    this.events[type].push(responseFunction);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>OK，on这个方法就大概写完了。</p>
+</li>
+<li><p>既然events.hello已经是一个包含了多个function的数组，所以我们不能像之前那样<br><code>this.events[type]();</code>简单粗暴的直接调用了，我们需要执行数组里的每一个function，也就是<br>对这个数组进行一下遍历，这里有很多种方法，我们用forEach，因为效率比较高。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Events.prototype.emit = function(type)&#123;</span><br><span class="line">    this.events[type].forEach(function(responseFunc)&#123;</span><br><span class="line">        responseFunc();</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>好了，到这里这个“山寨版”也就差不多完成了，我们来跑跑吧：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hello back</span><br><span class="line">Ignored</span><br></pre></td></tr></table></figure>
+<p>非常好！这样我们的“山寨版”也能绑定多个监听者了。</p>
+</li>
+</ol>
+<p>完整代码如下<br>./modules/myEvents.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">function Events()&#123;</span><br><span class="line">    this.events = &#123;&#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Events.prototype.on = function(type, responseFunction)&#123;</span><br><span class="line">    this.events[type] = this.events[type] || [];</span><br><span class="line">    this.events[type].push(responseFunction);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Events.prototype.emit = function(type)&#123;</span><br><span class="line">    this.events[type].forEach(function(responseFunc)&#123;</span><br><span class="line">        responseFunc();</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">module.exports = Events;</span><br></pre></td></tr></table></figure></p>
+<p>./app.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var Events = require(&apos;./modules/myEvents&apos;);</span><br><span class="line"></span><br><span class="line">var myEvent = new Events();</span><br><span class="line"></span><br><span class="line">myEvent.on(&apos;hello&apos;, function()&#123;</span><br><span class="line">    console.log(&apos;hello back&apos;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">myEvent.on(&apos;hello&apos;, function()&#123;</span><br><span class="line">    console.log(&apos;Ignored&apos;)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">myEvent.emit(&apos;hello&apos;);</span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<h3 id="4-总结"><a href="#4-总结" class="headerlink" title="4.总结"></a>4.总结</h3><p>我们写了一个“山寨版”的事件绑定和发布系统，但是山寨毕竟是山寨，我们看看NodeJS源码中的Events模块。。。<br><strong>我滴神呐。。。同样是程序猿，代码的差距咋就这么大捏。。。</strong><br>那是当然，人家的代码有很多我们没有的方法，而且人家有很多异常处理等等。但是如果你仔细看正版的on和emit方法<br>会发现其实他们实现的方法和我们的差不太多，那是当然，我是看过源码才。。。我是说。。。我是受到了源码的启发<br>才写的这篇博客。</p>
+<h3 id="5-参考资料"><a href="#5-参考资料" class="headerlink" title="5.参考资料"></a>5.参考资料</h3><ol>
+<li><a href="https://nodejs.org/dist/latest-v6.x/docs/api/events.html" target="_blank" rel="external">官方文档</a></li>
+<li><a href="https://github.com/nodejs/node" target="_blank" rel="external">NodeJS源码</a></li>
+</ol>
+]]></content>
+    </entry>
+    
+    <entry>
       <title><![CDATA[Node中的module和require]]></title>
-      <url>http://yoursite.com/ciq0jwk420001uswztvjbj968/</url>
+      <url>http://yoursite.com/ciq0pkzzf0001u8wzxn65v8mk/</url>
       <content type="html"><![CDATA[<h2 id="Node中的模块"><a href="#Node中的模块" class="headerlink" title="Node中的模块"></a>Node中的模块</h2><p>在Node中，很大的一个组成部分就是模块，其中有Node中的core模块，有从npm上下载的第三方模块以及我们自己写的模块。<br>NodeJS在模块化方面使用的是exports和require来导入和导出。</p>
 <a id="more"></a>
 <p>这里我写了几个小例子来和大家分享一下exports的几种简单方法。文件目录大概是这样</p>
-<img src="/ciq0jwk420001uswztvjbj968/module_example.png" alt="module_example.png" title="">
+<img src="/ciq0pkzzf0001u8wzxn65v8mk/module_example.png" alt="module_example.png" title="">
 <h3 id="1-直接导出"><a href="#1-直接导出" class="headerlink" title="1.直接导出"></a>1.直接导出</h3><p> ./modules/hello1.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">module.exports = function()&#123;</span><br><span class="line">    console.log(&apos;hello world 1&apos;)</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><br>这是一种很简单的到处方法，module.expots可以理解成是一个空对象（{}），而导出的方法就是直接用自己写好的function或者<br>object来替换这个对象。</p>
 <p> ./app.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var hello1 = require(&apos;./modules/hello1&apos;);</span><br><span class="line">hello1();</span><br></pre></td></tr></table></figure></p>
 <h3 id="2-作为exports的一个属性导出"><a href="#2-作为exports的一个属性导出" class="headerlink" title="2.作为exports的一个属性导出"></a>2.作为exports的一个属性导出</h3><p> ./modules/hello2.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var hello = function()&#123;</span><br><span class="line">    console.log(&apos;hello world 2&apos;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">module.exports.hello = hello;</span><br></pre></td></tr></table></figure><br>为module.exports增加一个名为hello的属性</p>
@@ -30,14 +108,14 @@
     
     <entry>
       <title><![CDATA[猪头怪那么傻活该受欺负]]></title>
-      <url>http://yoursite.com/ciq0jwk4i0008uswzj1yszu8u/</url>
-      <content type="html"><![CDATA[<p>哈哈哈哈<br><a id="more"></a><br><img src="/ciq0jwk4i0008uswzj1yszu8u/ztg.jpg" alt="猪头怪" title="猪头怪"></p>
+      <url>http://yoursite.com/ciq0pl005000cu8wzm5vuyhgg/</url>
+      <content type="html"><![CDATA[<p>哈哈哈哈<br><a id="more"></a><br><img src="/ciq0pl005000cu8wzm5vuyhgg/ztg.jpg" alt="猪头怪" title="猪头怪"></p>
 ]]></content>
     </entry>
     
     <entry>
       <title><![CDATA[test_post4]]></title>
-      <url>http://yoursite.com/ciq0jwk4e0006uswzb9kuq3zv/</url>
+      <url>http://yoursite.com/ciq0pkzzv0007u8wzu4reit7q/</url>
       <content type="html"><![CDATA[<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><blockquote>
 <p>引用的内容: This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,<br>          consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.<br>          Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.</p>
 <p>Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse<br>id sem consectetuer libero luctus adipiscing.</p>
@@ -61,7 +139,7 @@
     
     <entry>
       <title><![CDATA[哥布林和小人鱼]]></title>
-      <url>http://yoursite.com/ciq0jwk4g0007uswzfxu9ceso/</url>
+      <url>http://yoursite.com/ciq0pkzzy0009u8wz3x21do0e/</url>
       <content type="html"><![CDATA[<h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3><blockquote>
 <p>引用的内容: This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,<br>          consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.<br>          Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.</p>
 <p>Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse<br>id sem consectetuer libero luctus adipiscing.</p>
@@ -85,7 +163,7 @@
     
     <entry>
       <title><![CDATA[Hello World]]></title>
-      <url>http://yoursite.com/ciq0jwk480003uswz1pcwl9g2/</url>
+      <url>http://yoursite.com/ciq0pkzzt0006u8wz482cop85/</url>
       <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
