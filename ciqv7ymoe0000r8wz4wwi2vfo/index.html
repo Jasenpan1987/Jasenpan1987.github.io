@@ -1,0 +1,812 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="es6, javascript," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="es6也称为es2015，是EcmaScript的第六个大版本，虽然已经推出很久了，但是我还是发现有很多码农仍然不使用es6的一些新特性。我觉的其实没必要对这些新功能感到恐惧，要知道任何新功能的加入都是为了使这门编程语言更加完善。而且，能进入es6的新功能大多是一些在业务中需求量很大的功能，而且很多库也都有着自己的实现。这个系列就是要向大家介绍一下es6为我们带来的一些新功能，而且我觉的掌握这些功">
+<meta property="og:type" content="article">
+<meta property="og:title" content="es6学习笔记之一 数组篇">
+<meta property="og:url" content="http://yoursite.com/ciqv7ymoe0000r8wz4wwi2vfo/index.html">
+<meta property="og:site_name" content="哥布林的小山洞">
+<meta property="og:description" content="es6也称为es2015，是EcmaScript的第六个大版本，虽然已经推出很久了，但是我还是发现有很多码农仍然不使用es6的一些新特性。我觉的其实没必要对这些新功能感到恐惧，要知道任何新功能的加入都是为了使这门编程语言更加完善。而且，能进入es6的新功能大多是一些在业务中需求量很大的功能，而且很多库也都有着自己的实现。这个系列就是要向大家介绍一下es6为我们带来的一些新功能，而且我觉的掌握这些功">
+<meta property="og:updated_time" content="2016-07-20T18:24:48.296Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="es6学习笔记之一 数组篇">
+<meta name="twitter:description" content="es6也称为es2015，是EcmaScript的第六个大版本，虽然已经推出很久了，但是我还是发现有很多码农仍然不使用es6的一些新特性。我觉的其实没必要对这些新功能感到恐惧，要知道任何新功能的加入都是为了使这门编程语言更加完善。而且，能进入es6的新功能大多是一些在业务中需求量很大的功能，而且很多库也都有着自己的实现。这个系列就是要向大家介绍一下es6为我们带来的一些新功能，而且我觉的掌握这些功">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/ciqv7ymoe0000r8wz4wwi2vfo/"/>
+
+  <title> es6学习笔记之一 数组篇 | 哥布林的小山洞 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">哥布林的小山洞</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                es6学习笔记之一 数组篇
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-21T01:54:02+10:00" content="2016-07-21">
+              2016-07-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/es6学习笔记之一/" itemprop="url" rel="index">
+                    <span itemprop="name">es6学习笔记之一</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/ciqv7ymoe0000r8wz4wwi2vfo/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="ciqv7ymoe0000r8wz4wwi2vfo/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>es6也称为es2015，是EcmaScript的第六个大版本，虽然已经推出很久了，但是我还是发现有很多码农仍然不使用es6的一些新特性。<br>我觉的其实没必要对这些新功能感到恐惧，要知道任何新功能的加入都是为了使这门编程语言更加完善。而且，能进入es6的新功能大多<br>是一些在业务中需求量很大的功能，而且很多库也都有着自己的实现。这个系列就是要向大家介绍一下es6为我们带来的一些新功能，而<br>且我觉的掌握这些功能基本能搞定平时80%的业务需求。</p>
+<a id="more"></a>
+<p>众所周知，array即数组是任何一门编程语言必不可少的数据类型或数据集合，JS也不例外，每个版本中都会为array增加许多新属性和<br>新方法。这篇文章会简单介绍一下es6为我们带来的7种新的array方法，如果你用过类似于underscore或者lodash这一类功能库，那<br>么其中的很多方法你一定不会感到陌生。</p>
+<h2 id="1-ForEach"><a href="#1-ForEach" class="headerlink" title="1. ForEach"></a>1. ForEach</h2><p>我敢保证你在操作数组的时候一定使用过for循环，而今天我们将要介绍的这7种方法设计的目的就是让你摒弃for循环。为什么要这样做<br>呢？我觉的答案有三点：1. 简化代码，增加代码的可读性。2. 增加代码执行效率。3.提高你的逼格（这很重要）。</p>
+<p>ForEach这个方法和for循环非常相似，可以用来遍历数组，大概长这个样子<br><code>arr.map(callback)</code><br>callback中的第一个参数为遍历的每一个元素，index为该元素的索引</p>
+<p>让我们看一个简单的例子吧：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">var numbers = [1, 2, 3, 4];</span><br><span class="line"></span><br><span class="line">numbers.forEach(function(number)&#123;</span><br><span class="line">	console.log(number)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br></pre></td></tr></table></figure><br>这里的输出是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1,0 </span><br><span class="line">2,1</span><br><span class="line">3,2</span><br><span class="line">4,3</span><br></pre></td></tr></table></figure></p>
+<h2 id="2-map"><a href="#2-map" class="headerlink" title="2. map"></a>2. map</h2><p>map方法一般接受一个函数作为参数，返回一个新数组。大概就是这样：</p>
+<p><code>arr.map(callback)</code></p>
+<p>item就是arr遍历到的每个元素，相当于for循环中的<code>arr[i]</code>，让我们来看一个简单的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">var numbers = [1, 2, 3, 4];</span><br><span class="line"></span><br><span class="line">var doubledNumbers = numbers.map(function(number)&#123;</span><br><span class="line">	return number * 2;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">console.log(doubledNumbers)//返回 [2, 4, 6, 8]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这个例子很简单，就是我们有一个数组，现在我想把每个数组里的元素X2，然后赋值给一个新书组。但是还是有三个点请大家注意一下：1.<br>callback函数一定要有return，否则就会返回undefined。2. map方法会返回一个新书组，从而做到不改变原数组的值，<br>即immutable。3. callback不一定是匿名函数，所以我们还可以这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">var numbers = [1, 2, 3, 4];</span><br><span class="line"></span><br><span class="line">function doubleNumbers(number)&#123;</span><br><span class="line">    return number * 2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var doubledNumbers = numbers.map(doubleNumbers);</span><br><span class="line"></span><br><span class="line">console.log(doubledNumbers)//返回 [2, 4, 6, 8]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>我们可以看到，返回的结果是完全一样的。</p>
+<h2 id="3-filter"><a href="#3-filter" class="headerlink" title="3. filter"></a>3. filter</h2><p>filter是用来过滤数组的，它会给出一个条件，然后遍历数组，当数组的某个元素符合这个条件，这个元素就会被保留，反之就会被过滤掉，<br>然后返回一个新的数组。</p>
+<p>filter的用法大概是这样<br><code>arr.filter(callback)</code><br>这里，callback通常接收一个参数，即被遍历到的元素，我们来看一个例子吧：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var numbers = [1, 2, 3, 4];</span><br><span class="line"></span><br><span class="line">var evenNumbers = numbers.filter(function(number)&#123;</span><br><span class="line">	return number % 2 === 0;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">console.log(evenNumbers)</span><br></pre></td></tr></table></figure>
+<p>这个例子就是从numbers里面找到所有偶数元素，然后赋值给新数组evenNumbers。这里有两点需要注意：1. return一定不要忘了，2.<br>filter不会改变原数组，而是会返回一个新数组。这段代码运行的结果是 [2, 4]。</p>
+<h2 id="4-find"><a href="#4-find" class="headerlink" title="4. find"></a>4. find</h2><p>find方法会接受一个条件，然后遍历数组，返回第一个符合该条件的元素，大概这样：<br><code>arr.find(callback)</code><br>同样，我们来看个例子吧：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var numbers = [1, 2, 3, 4];</span><br><span class="line"></span><br><span class="line">var numberFour = numbers.find(function(number)&#123;</span><br><span class="line">	return number === 4;</span><br><span class="line">&#125;)</span><br><span class="line">console.log(numberFour);</span><br></pre></td></tr></table></figure>
+<p>这段代码返回的结果是4。要注意的一个问题是，当你的数组里有多个符合该条件的元素时，find方法只会返回第一个，而且，find方法只会<br>返回一个元素，而不是一个数组。举个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var numbers = [1, 2, 3, 4];</span><br><span class="line"></span><br><span class="line">var numberFour = numbers.find(function(number)&#123;</span><br><span class="line">	return number &gt;= 3;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">console.log(numberFour);</span><br></pre></td></tr></table></figure>
+<p>这段代码返回的不是[3,4]，而是3，因为3是第一个符合条件的元素。如果你想让它执行上面的逻辑的话，那么请使用filter。</p>
+<h2 id="5-every-some"><a href="#5-every-some" class="headerlink" title="5. every/some"></a>5. every/some</h2><p>把这两个方法放在一起说是因为他们非常相似，他们都是接受一个条件，如果这个数组的每一个元素都符合这个条件，every就会返回true。<br>如果这个数组中有任何一个元素符合这个条件，那么some就会返回true。所以我们可以说，我们给出一个条件，如果every的返回值是true<br>的话那么some一定也是true。</p>
+<p>我们来看个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var numbers = [1, 2, 3, 4];</span><br><span class="line">var allGreaterThan0 = numbers.every(function(number)&#123;</span><br><span class="line">	return number&gt;0;</span><br><span class="line">&#125;);</span><br><span class="line">console.log(allGreaterThan0);</span><br></pre></td></tr></table></figure></p>
+<p>这段代码的返回结果是true，因为所有的元素都大于0。但是如果我们把条件稍微改改，改成number&gt;1，那么就会返回false，因为第一个<br>元素是1，1&gt;1是false。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var numbers = [1, 2, 3, 4];</span><br><span class="line">var allGreaterThan3 = numbers.some(function(number)&#123;</span><br><span class="line">	return number&gt;3;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">console.log(allGreaterThan3);</span><br></pre></td></tr></table></figure>
+<p>这段代码的返回结果是true，因为最后一个元素4大于3。</p>
+<p>every和some这两个方法要注意一个点：那就是这个方法不会返回任何数组或者值，只会返回true或false，所以我们可以在判断的时候使用<br>这两种方法，比如<code>if(arr.some(callback))...</code>，我们可以在外面定义callback方法，也可以用箭头函数（=&gt;）来定义，之后的文章<br>会介绍箭头函数。</p>
+<h2 id="6-reduce"><a href="#6-reduce" class="headerlink" title="6. reduce"></a>6. reduce</h2><p>reduce方法是这7个方法中最绕的一个，不过不用担心，我们会详细的说说这个复(dan)杂(teng)的方法，尽量让大家明白。<br>reduce的作用是接受一个初始值和一个方法，对一个数组进行遍历，最后生成一个新的值，数据类型是初始值的数据类型，这么说肯定很绕，我<br>们来看几个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var numbers = [1, 2, 3, 4];</span><br><span class="line"></span><br><span class="line">var total = numbers.reduce(function(previous, number)&#123;</span><br><span class="line">  previous += number;</span><br><span class="line">	return previous; </span><br><span class="line">&#125;, 0)</span><br><span class="line"></span><br><span class="line">console.log(total);</span><br></pre></td></tr></table></figure>
+<p>这段代码是把元素里面所有的值累加，并且返回所有元素相加的和，也就是10。我们来分块说一下，首先，reduce方法接受两个参数，第一个参数<br>是一个方法，我们一会再回来说它，先说第二个参数，这个参数是返回值的初始值，比如，再刚才那个例子里，如果我们的初始值给10而不是0，那<br>么结果就是20。回头来我们说说第一个参数，这个参数是reduce的规则，同样接受两个参数，以上面的例子来说，previous就是每次返回的值，<br>换句话说，我们每次都是都会返回这个值，用来做下一步的计算，而且reduce函数最后返回的值其实也是这个previous。第二个参数number则是<br>数组每次迭代的元素。也就是1，2，3，4。</p>
+<p>我们来看个图表，理解一下reduce是怎么工作的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">迭代第一个元素之前：</span><br><span class="line">previous: 0, number: 1</span><br><span class="line">迭代第一个元素后：</span><br><span class="line">previous: 0+1=1, number: 1</span><br><span class="line">迭代第二个元素后：</span><br><span class="line">previous: 1+2=3, number: 2</span><br><span class="line">迭代第三个元素后：</span><br><span class="line">previous: 3+3=6, number: 3</span><br><span class="line">迭代第四个元素后：</span><br><span class="line">previous: 6+4=10, number: 4</span><br></pre></td></tr></table></figure>
+<p>现在清晰很多了吧，对，reduce的第一个参数，也就是那个回调函数会执行4次，为每一个元素执行一次，最后返回总的值。</p>
+<p>现在，我们来看一个非常实用的例子，在各种面试题里面非常常见：</p>
+<ol>
+<li>数组去重，就是说，给你个数组，[1, 1, 2, 3, 4, 4]大概这样，让你来写个方法，去掉重复的元素，返回[1, 2, 3, 4]。我建议你可以先不要往后<br>看，自己试试，如果想不出来或者不知道怎么用到reduce方法，请继续往后看。</li>
+</ol>
+<p>分析：<br>这里，首先我们要用reduce方法，那么我们要首先确定初始值，这里我们需要一个空数组，然后通过reduce的第一个参数那个callback每次往数组里<br>push。这步做完，我们应该有了这么一个轮廓：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var numbers = [1, 1, 2, 3, 4, 4];</span><br><span class="line"></span><br><span class="line">function unique(array) &#123;</span><br><span class="line">  return array.reduce((previous, number)=&gt;&#123;</span><br><span class="line">    </span><br><span class="line">  &#125;, []);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">unique(numbers);</span><br></pre></td></tr></table></figure></p>
+<p>接下来，我们需要想想每次我们需要做什么，我们需要一个方法，接受每次传进来的数，然后看是不是包含在previous数组里，<br>确定某个元素是否包含在数组里有很多种方法，这里，我们可以用some方法，因为previous也是一个数组，但是，值得注意的<br>一点是这里我们需要的不是包含在数组里，而是不包含在previous数组里，所以我们需要取反。最后，如果取反得到的是true<br>的话，就说明这个数字不包含在previous数组里，所以，我们要把它push进previous。然后返回新的previous数组。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var numbers = [1, 1, 2, 3, 4, 4];</span><br><span class="line"></span><br><span class="line">function unique(array) &#123;</span><br><span class="line">  return array.reduce((previous, number)=&gt;&#123;</span><br><span class="line">    var eql = previous.some(function(num)&#123;</span><br><span class="line">    	return number === num;</span><br><span class="line">    &#125;);</span><br><span class="line">	  if(!eql)&#123;</span><br><span class="line">  	  previous.push(number)</span><br><span class="line">    &#125;</span><br><span class="line">    return previous;</span><br><span class="line">	&#125;, [])</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">unique(numbers)</span><br></pre></td></tr></table></figure>
+<p>这也就是最后的代码，当然，这段代码其实写的并不完美，有很多地方可以优化，但是这需要用到其他的es6的一些方法，比如…操作符<br>以及=&gt;箭头函数。在我们接触这些内容以前，先保持这样吧，如果对刚才我说的那两个概念有了解的同学可以自己尝试一下优化这段代码。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/es6-javascript/" rel="tag">#es6, javascript</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/ciqv7ymsg000br8wzzxfeio1x/" rel="next" title="reselect与redux">
+                <i class="fa fa-chevron-left"></i> reselect与redux
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="ciqv7ymoe0000r8wz4wwi2vfo/"
+           data-title="es6学习笔记之一 数组篇" data-url="http://yoursite.com/ciqv7ymoe0000r8wz4wwi2vfo/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Jasen PAN" />
+          <p class="site-author-name" itemprop="name">Jasen PAN</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-ForEach"><span class="nav-number">1.</span> <span class="nav-text">1. ForEach</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-map"><span class="nav-number">2.</span> <span class="nav-text">2. map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-filter"><span class="nav-number">3.</span> <span class="nav-text">3. filter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-find"><span class="nav-number">4.</span> <span class="nav-text">4. find</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-every-some"><span class="nav-number">5.</span> <span class="nav-text">5. every/some</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-reduce"><span class="nav-number">6.</span> <span class="nav-text">6. reduce</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jasen PAN</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"JasenpanHexo"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+
+</body>
+</html>
