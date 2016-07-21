@@ -271,8 +271,8 @@
             
               
                 
-                <a class="post-title-link" href="/ciqwbi7br0002mkwzax7zqa77/" itemprop="url">
-                  es6学习笔记之一 数组篇
+                <a class="post-title-link" href="/ciqwj7ifk0000h8wzu0vuce6x/" itemprop="url">
+                  es6学习笔记之二 const，let和模版字符串
                 </a>
               
             
@@ -285,8 +285,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-21T01:54:02+10:00" content="2016-07-21">
-              2016-07-21
+            <time itemprop="dateCreated" datetime="2016-07-22T00:48:52+10:00" content="2016-07-22">
+              2016-07-22
             </time>
           </span>
 
@@ -299,8 +299,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/es6学习笔记之一/" itemprop="url" rel="index">
-                    <span itemprop="name">es6学习笔记之一</span>
+                  <a href="/categories/es6学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">es6学习笔记</span>
                   </a>
                 </span>
 
@@ -315,8 +315,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/ciqwbi7br0002mkwzax7zqa77/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="ciqwbi7br0002mkwzax7zqa77/" itemprop="commentsCount"></span>
+                <a href="/ciqwj7ifk0000h8wzu0vuce6x/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="ciqwj7ifk0000h8wzu0vuce6x/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -340,9 +340,9 @@
 
       
         
-          <p>es6也称为es2015，是EcmaScript的第六个大版本，虽然已经推出很久了，但是我还是发现有很多码农仍然不使用es6的一些新特性。<br>我觉的其实没必要对这些新功能感到恐惧，要知道任何新功能的加入都是为了使这门编程语言更加完善。而且，能进入es6的新功能大多<br>是一些在业务中需求量很大的功能，而且很多库也都有着自己的实现。这个系列就是要向大家介绍一下es6为我们带来的一些新功能，而<br>且我觉的掌握这些功能基本能搞定平时80%的业务需求。</p>
+          <p>这篇学习笔记依然是介绍es6的一些常用的新功能，这一篇会介绍两种新功能：1. const和let，2.模板字符串。之所以把这两个完全不相关的<br>概念放在一起是因为这两部分的内容不是很多，而且很容易理解。同时，我也会介绍一些其他es6相关的内容。</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/ciqwbi7br0002mkwzax7zqa77/#more" rel="contents">
+            <a class="btn" href="/ciqwj7ifk0000h8wzu0vuce6x/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -393,7 +393,129 @@
             
               
                 
-                <a class="post-title-link" href="/ciqwbi7fn000bmkwzsglp56y7/" itemprop="url">
+                <a class="post-title-link" href="/ciqwj7ig00006h8wztyrrnazx/" itemprop="url">
+                  es6学习笔记之一 数组篇
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-21T01:54:02+10:00" content="2016-07-21">
+              2016-07-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/es6学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">es6学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/ciqwj7ig00006h8wztyrrnazx/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="ciqwj7ig00006h8wztyrrnazx/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>es6也称为es2015，是EcmaScript的第六个大版本，虽然已经推出很久了，但是我还是发现有很多码农仍然不使用es6的一些新特性。<br>我觉的其实没必要对这些新功能感到恐惧，要知道任何新功能的加入都是为了使这门编程语言更加完善。而且，能进入es6的新功能大多<br>是一些在业务中需求量很大的功能，而且很多库也都有着自己的实现。这个系列就是要向大家介绍一下es6为我们带来的一些新功能，而<br>且我觉的掌握这些功能基本能搞定平时80%的业务需求。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/ciqwj7ig00006h8wztyrrnazx/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/ciqwj7igb000ch8wz9phqcxpx/" itemprop="url">
                   reselect与redux
                 </a>
               
@@ -437,8 +559,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/ciqwbi7fn000bmkwzsglp56y7/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="ciqwbi7fn000bmkwzsglp56y7/" itemprop="commentsCount"></span>
+                <a href="/ciqwj7igb000ch8wz9phqcxpx/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="ciqwj7igb000ch8wz9phqcxpx/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -464,7 +586,7 @@
         
           <h2 id="1-reselect简介"><a href="#1-reselect简介" class="headerlink" title="1. reselect简介"></a>1. reselect简介</h2><p>reselect是一个与redux配合使用的一个模块，它可根据state上的多个已有的属性来生成一个新的属性，<br>这可以为简化代码逻辑带来很大的帮助。比如我们在state上有users这个属性，而在每个user上又有性别<br>这个属性，那么我们可以使用reselect来为我们分别生成性别为男和女的新属性，而且也不需要加入新的<br>reducer和action。</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/ciqwbi7fn000bmkwzsglp56y7/#more" rel="contents">
+            <a class="btn" href="/ciqwj7igb000ch8wz9phqcxpx/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -515,7 +637,7 @@
             
               
                 
-                <a class="post-title-link" href="/ciqwbi7bf0000mkwzvfc5vvty/" itemprop="url">
+                <a class="post-title-link" href="/ciqwj7ift0002h8wzr7eo9lrl/" itemprop="url">
                   浅谈React Router中的browserHistory和hashHistory
                 </a>
               
@@ -559,8 +681,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/ciqwbi7bf0000mkwzvfc5vvty/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="ciqwbi7bf0000mkwzvfc5vvty/" itemprop="commentsCount"></span>
+                <a href="/ciqwj7ift0002h8wzr7eo9lrl/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="ciqwj7ift0002h8wzr7eo9lrl/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -586,7 +708,7 @@
         
           <h2 id="React-Router简述"><a href="#React-Router简述" class="headerlink" title="React Router简述"></a>React Router简述</h2><p>React router，即路由，是react生态系统中一个重要的组成部分。它可以使单页应用具有类似于多页应用的<br>路由系统，即前端路由。绝对多数教程中对于Router History中的browserHisotry和hashHistory都是<br>一笔带过：不要用hashHistory，用brwoserHistory，其实在开发中，并没有那么简单，hashhistory有着<br>一定的应用场景，而browserHistory也会有几个坑。</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/ciqwbi7bf0000mkwzvfc5vvty/#more" rel="contents">
+            <a class="btn" href="/ciqwj7ift0002h8wzr7eo9lrl/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -637,7 +759,7 @@
             
               
                 
-                <a class="post-title-link" href="/ciqwbi7kx000mmkwzalfq6eqv/" itemprop="url">
+                <a class="post-title-link" href="/ciqwj7ig60009h8wz4cc3onhb/" itemprop="url">
                   Node中的事件系统
                 </a>
               
@@ -681,8 +803,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/ciqwbi7kx000mmkwzalfq6eqv/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="ciqwbi7kx000mmkwzalfq6eqv/" itemprop="commentsCount"></span>
+                <a href="/ciqwj7ig60009h8wz4cc3onhb/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="ciqwj7ig60009h8wz4cc3onhb/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -708,7 +830,7 @@
         
           <h2 id="Node中的事件发布与订阅"><a href="#Node中的事件发布与订阅" class="headerlink" title="Node中的事件发布与订阅"></a>Node中的事件发布与订阅</h2><p>事件的发布和订阅系统(event)是NodeJS中的一个极为重要的系统，但是这个系统对于很多刚入坑的小伙伴来说可能难以理解，<br>这篇博客会为刚入坑的小伙伴们简单介绍一下事件（event），并且一步一步的写一个“山寨版”的事件系统。</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/ciqwbi7kx000mmkwzalfq6eqv/#more" rel="contents">
+            <a class="btn" href="/ciqwj7ig60009h8wz4cc3onhb/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -759,7 +881,7 @@
             
               
                 
-                <a class="post-title-link" href="/ciqwbi7fq000dmkwz4qmhvs3k/" itemprop="url">
+                <a class="post-title-link" href="/ciqwj7ig20007h8wzow193t25/" itemprop="url">
                   Node中的module和require
                 </a>
               
@@ -803,8 +925,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/ciqwbi7fq000dmkwz4qmhvs3k/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="ciqwbi7fq000dmkwz4qmhvs3k/" itemprop="commentsCount"></span>
+                <a href="/ciqwj7ig20007h8wzow193t25/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="ciqwj7ig20007h8wzow193t25/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -830,7 +952,7 @@
         
           <h2 id="Node中的模块"><a href="#Node中的模块" class="headerlink" title="Node中的模块"></a>Node中的模块</h2><p>在Node中，很大的一个组成部分就是模块，其中有Node中的core模块，有从npm上下载的第三方模块以及我们自己写的模块。<br>NodeJS在模块化方面使用的是exports和require来导入和导出。</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/ciqwbi7fq000dmkwz4qmhvs3k/#more" rel="contents">
+            <a class="btn" href="/ciqwj7ig20007h8wzow193t25/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -901,7 +1023,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

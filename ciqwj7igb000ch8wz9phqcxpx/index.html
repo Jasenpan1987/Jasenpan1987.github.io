@@ -1,0 +1,814 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="react, redux, reselect," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="1. reselect简介reselect是一个与redux配合使用的一个模块，它可根据state上的多个已有的属性来生成一个新的属性，这可以为简化代码逻辑带来很大的帮助。比如我们在state上有users这个属性，而在每个user上又有性别这个属性，那么我们可以使用reselect来为我们分别生成性别为男和女的新属性，而且也不需要加入新的reducer和action。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="reselect与redux">
+<meta property="og:url" content="http://yoursite.com/ciqwj7igb000ch8wz9phqcxpx/index.html">
+<meta property="og:site_name" content="哥布林的小山洞">
+<meta property="og:description" content="1. reselect简介reselect是一个与redux配合使用的一个模块，它可根据state上的多个已有的属性来生成一个新的属性，这可以为简化代码逻辑带来很大的帮助。比如我们在state上有users这个属性，而在每个user上又有性别这个属性，那么我们可以使用reselect来为我们分别生成性别为男和女的新属性，而且也不需要加入新的reducer和action。">
+<meta property="og:image" content="http://yoursite.com/ciqwj7igb000ch8wz9phqcxpx/articles_1.png">
+<meta property="og:updated_time" content="2016-07-09T18:38:53.507Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="reselect与redux">
+<meta name="twitter:description" content="1. reselect简介reselect是一个与redux配合使用的一个模块，它可根据state上的多个已有的属性来生成一个新的属性，这可以为简化代码逻辑带来很大的帮助。比如我们在state上有users这个属性，而在每个user上又有性别这个属性，那么我们可以使用reselect来为我们分别生成性别为男和女的新属性，而且也不需要加入新的reducer和action。">
+<meta name="twitter:image" content="http://yoursite.com/ciqwj7igb000ch8wz9phqcxpx/articles_1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/ciqwj7igb000ch8wz9phqcxpx/"/>
+
+  <title> reselect与redux | 哥布林的小山洞 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">哥布林的小山洞</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                reselect与redux
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-10T02:42:40+10:00" content="2016-07-10">
+              2016-07-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/react-redux/" itemprop="url" rel="index">
+                    <span itemprop="name">react, redux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/ciqwj7igb000ch8wz9phqcxpx/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="ciqwj7igb000ch8wz9phqcxpx/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1-reselect简介"><a href="#1-reselect简介" class="headerlink" title="1. reselect简介"></a>1. reselect简介</h2><p>reselect是一个与redux配合使用的一个模块，它可根据state上的多个已有的属性来生成一个新的属性，<br>这可以为简化代码逻辑带来很大的帮助。比如我们在state上有users这个属性，而在每个user上又有性别<br>这个属性，那么我们可以使用reselect来为我们分别生成性别为男和女的新属性，而且也不需要加入新的<br>reducer和action。</p>
+<a id="more"></a>
+<h2 id="2-一个简单的例子"><a href="#2-一个简单的例子" class="headerlink" title="2. 一个简单的例子"></a>2. 一个简单的例子</h2><h3 id="现在我们有一个简单的文章系统，大概是这样的："><a href="#现在我们有一个简单的文章系统，大概是这样的：" class="headerlink" title="现在我们有一个简单的文章系统，大概是这样的："></a>现在我们有一个简单的文章系统，大概是这样的：</h3><img src="/ciqwj7igb000ch8wz9phqcxpx/articles_1.png" alt="articles_1.png" title="">
+<h3 id="文件目录大概这样："><a href="#文件目录大概这样：" class="headerlink" title="文件目录大概这样："></a>文件目录大概这样：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">|- actions/</span><br><span class="line">|--- types.js  //存放所有action.type</span><br><span class="line">|--- index.js   //action creators</span><br><span class="line">|- components/</span><br><span class="line">|--- app.js    //入口组件</span><br><span class="line">|--- containers/</span><br><span class="line">|------ post_list.js //显示已被选中的文章</span><br><span class="line">|------ post_selectors.js    //所有文章，点击checkbox会加入被选中的文章列表</span><br><span class="line">|- reducers/</span><br><span class="line">|--- all_post_reducer.js  //返回所有文章</span><br><span class="line">|--- index.js     //combinedReducer</span><br><span class="line">|--- select_post_reducer.js   //返回被选中或者被反选的文章</span><br><span class="line">|-index.js  //主入口</span><br></pre></td></tr></table></figure>
+<h3 id="代码："><a href="#代码：" class="headerlink" title="代码："></a>代码：</h3><p><strong> /index.js </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">import React from &apos;react&apos;;</span><br><span class="line">import ReactDOM from &apos;react-dom&apos;;</span><br><span class="line">import &#123; Provider &#125; from &apos;react-redux&apos;;</span><br><span class="line">import &#123; createStore, applyMiddleware &#125; from &apos;redux&apos;;</span><br><span class="line">import reduxThunk from &apos;redux-thunk&apos;;</span><br><span class="line"></span><br><span class="line">import App from &apos;./components/app&apos;;</span><br><span class="line">import reducers from &apos;./reducers&apos;;</span><br><span class="line"></span><br><span class="line">const createStoreWithMiddleware = applyMiddleware(</span><br><span class="line">    reduxThunk</span><br><span class="line">)(createStore);</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">  &lt;Provider store=&#123;createStoreWithMiddleware(reducers)&#125;&gt;</span><br><span class="line">    &lt;App /&gt;</span><br><span class="line">  &lt;/Provider&gt;</span><br><span class="line">  , document.querySelector(&apos;.container&apos;));</span><br></pre></td></tr></table></figure></p>
+<p><strong> /components/app.js </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;react&apos;;</span><br><span class="line"></span><br><span class="line">import PostSelector from &apos;./containers/post_selectors&apos;;</span><br><span class="line">import PostList from &apos;./containers/post_list&apos;</span><br><span class="line"></span><br><span class="line">export default class App extends Component &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;PostList /&gt;</span><br><span class="line">        &lt;PostSelector /&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong> /components/containers/post_selectors.js </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;react&apos;;</span><br><span class="line">import &#123; connect &#125; from &apos;react-redux&apos;;</span><br><span class="line">import &#123; bindActionCreators &#125; from &apos;redux&apos;</span><br><span class="line"></span><br><span class="line">import &#123; getPosts, selectPost, deselectPost &#125; from &apos;../../actions/index&apos;;</span><br><span class="line"></span><br><span class="line">class PostSelector extends Component &#123;</span><br><span class="line">    componentWillMount()&#123;</span><br><span class="line">        this.props.getPosts();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    handleCheck(postId, event)&#123;</span><br><span class="line">        if(event.target.checked)&#123;</span><br><span class="line">            this.props.selectPost(postId)</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            this.props.deselectPost(postId)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    renderPostList()&#123;</span><br><span class="line">        return this.props.posts.map(post =&gt; &#123;</span><br><span class="line">            return (</span><br><span class="line">                &lt;li className=&quot;list-group-item&quot; key=&#123;post.id&#125;&gt;</span><br><span class="line">                    &lt;input</span><br><span class="line">                        type=&quot;checkbox&quot;</span><br><span class="line">                        value=&#123;this.props.selectedIds.includes(post.id)&#125;</span><br><span class="line">                        onChange=&#123;this.handleCheck.bind(this, post.id)&#125;</span><br><span class="line">                    /&gt;</span><br><span class="line">                    &#123;post.title&#125;</span><br><span class="line">                &lt;/li&gt;</span><br><span class="line">            )</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render()&#123;</span><br><span class="line">        //console.log(this.props.posts)</span><br><span class="line">       if(this.props.posts)&#123;</span><br><span class="line">           return (</span><br><span class="line">               &lt;div&gt;</span><br><span class="line">                   &lt;h2&gt;文章列表&lt;/h2&gt;</span><br><span class="line">                   &lt;ul className=&quot;list-group&quot;&gt;</span><br><span class="line">                       &#123;this.renderPostList()&#125;</span><br><span class="line">                   &lt;/ul&gt;</span><br><span class="line">               &lt;/div&gt;</span><br><span class="line">           )</span><br><span class="line">       &#125;else&#123;</span><br><span class="line">           return &lt;h2&gt;Loading...&lt;/h2&gt;</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function mapStateToProps(state)&#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        posts: state.posts,</span><br><span class="line">        selectedIds: state.selectedIds</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function mapDispatchToProps(dispatch)&#123;</span><br><span class="line">    return bindActionCreators(&#123;</span><br><span class="line">        getPosts,</span><br><span class="line">        selectPost,</span><br><span class="line">        deselectPost</span><br><span class="line">    &#125;, dispatch)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default connect(mapStateToProps, mapDispatchToProps)(PostSelector);</span><br></pre></td></tr></table></figure></p>
+<p><strong> /components/containers/post_list.js </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;react&apos;;</span><br><span class="line"></span><br><span class="line">export default class PostList extends Component &#123;</span><br><span class="line">    render()&#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;h2&gt;已选中的文章&lt;/h2&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong> /actions/types.js </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export const GETPOSTS = &apos;GETPOSTS&apos;;</span><br><span class="line">export const SELECTPOST = &apos;SELECTPOST&apos;;</span><br><span class="line">export const DESELECTPOST = &apos;DESELECTPOST&apos;;</span><br></pre></td></tr></table></figure></p>
+<p><strong> /actions/index.js </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">import axios from &apos;axios&apos;;</span><br><span class="line">import _ from &apos;lodash&apos;;</span><br><span class="line"></span><br><span class="line">import &#123; GETPOSTS, SELECTPOST, DESELECTPOST &#125; from &apos;./types&apos;;</span><br><span class="line"></span><br><span class="line">export function getPosts()&#123;</span><br><span class="line">    return dispatch =&gt; &#123;</span><br><span class="line">        const fetchUrl = &apos;http://jsonplaceholder.typicode.com/posts&apos;;</span><br><span class="line">        axios.get(fetchUrl).then(response=&gt;&#123;</span><br><span class="line">            if(response.status == 200)&#123;</span><br><span class="line">                dispatch(&#123;</span><br><span class="line">                    type: GETPOSTS,</span><br><span class="line">                    payload: response.data.slice(0, 5)</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export function selectPost(postId)&#123;</span><br><span class="line">    return dispatch =&gt; &#123;</span><br><span class="line">        dispatch(&#123;</span><br><span class="line">            type: SELECTPOST,</span><br><span class="line">            payload: postId</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export function deselectPost(postId)&#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        type: DESELECTPOST,</span><br><span class="line">        payload: postId</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong> /reducers/index.js </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import &#123; combineReducers &#125; from &apos;redux&apos;;</span><br><span class="line">import all_post_reducer from &apos;./all_post_reducer&apos;;</span><br><span class="line">import select_post_reducer from &apos;./select_post_reducer&apos;;</span><br><span class="line"></span><br><span class="line">const rootReducer = combineReducers(&#123;</span><br><span class="line">  posts: all_post_reducer,</span><br><span class="line">  selectedIds: select_post_reducer</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">export default rootReducer;</span><br></pre></td></tr></table></figure></p>
+<p><strong> /reducers/all_post_reducer.js </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import &#123; GETPOSTS, SELECTPOST, DESELECTPOST &#125; from &apos;../actions/types&apos;;</span><br><span class="line"></span><br><span class="line">export default function(state=[], action)&#123;</span><br><span class="line">    switch(action.type)&#123;</span><br><span class="line">        case GETPOSTS:</span><br><span class="line">            return action.payload;</span><br><span class="line"></span><br><span class="line">        default:</span><br><span class="line">            return state;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong> /reducers/select_post_reducer.js </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import &#123; GETPOSTS, SELECTPOST, DESELECTPOST &#125; from &apos;../actions/types&apos;;</span><br><span class="line"></span><br><span class="line">export default function(state=[], action)&#123;</span><br><span class="line">    switch(action.type)&#123;</span><br><span class="line">        case SELECTPOST:</span><br><span class="line">            return [...state, action.payload];</span><br><span class="line"></span><br><span class="line">        case DESELECTPOST:</span><br><span class="line">            return state.filter(id=&gt; id!=action.payload);</span><br><span class="line"></span><br><span class="line">        default:</span><br><span class="line">            return state;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="代码概述："><a href="#代码概述：" class="headerlink" title="代码概述："></a>代码概述：</h3><p>这是一个很简单的react-redux项目，通过两个action creator来向reducer发送action，并且<br>生成新的state，这里state中共有两个属性，1，包含所有文章的数组，这里可以看出来，我们使用的是jsonplaceholder<br>中的post并且只取了前5个。2，包含所有已经被选的文章Id数组，这个数组只包含文章的Id，大概是这样的<br><code>[1, 2, 4]</code>。用户可以通过选择或反选文章左侧的checkbox来进行选择或者反选文章，其实就是往被选文章数组内<br>添加当前文章Id或者是从被选文章数组内移除当前文章的Id。</p>
+<h3 id="一点题外话"><a href="#一点题外话" class="headerlink" title="一点题外话"></a>一点题外话</h3><p>我在写这个小例子的时候除了个小状况，而且，我觉得应该很多人都出过这种状况吧。当时我差不多写好的时候，<br>发现不管是选择还是反选文章前的checkbox，被选文章的数组始终是个空数组，经过一番排查，发现错误很诡异<br>action creator方法确实执行了，但是reducer却没有反应，而且浏览器没有报任何错误，换句话说，reducer<br>没有接收到action creator发出的action。经过长(da)时(shen)间(de)调(zhi)试(dian)，最终发现bug的所在：<br><strong> 我在组件中调用actioncreator 方法的时候忘了加 this.props </strong> 这么做会导致在action creator被<br>调用的时候，它调用的不是props上的那个redux包装过的action creator，而是调用的import进来的那个包装前的。<br>要知道，在bindActionCreator执行的时候，里面的方法已经跟redux绑定在了一起，但是之前那个import进来的<br>只是一个纯函数，可以执行，然后return一个action object，并不会dispatch给reducer。这个错误我觉的应该<br>不是我一个人犯过，所以大家看了以后，如果你的action creator可以正常以运行但是reducer却接不到任何一个<br>action，而且浏览器不报任何错误，那么多半就是这个原因了，检查一下你在运行action creator的时候是不是<br>忘了加this.props吧。</p>
+<h2 id="3-补全post-list"><a href="#3-补全post-list" class="headerlink" title="3. 补全post_list"></a>3. 补全post_list</h2><p>可以看出来，post_list根本就没写完，目前，它只能显示一个h2标签。我们需要它在有文章被勾选时显示这个文章，<br>再文章被反选时把这个文章移除。那么很明显，它需要是一个Smart Component，就是说它需要和state tree相关联。</p>
+<h3 id="state-tree已绑定的属性"><a href="#state-tree已绑定的属性" class="headerlink" title="state tree已绑定的属性"></a>state tree已绑定的属性</h3><p>目前我们的state tree上已经绑定了这些：</p>
+<ol>
+<li>所有的文章</li>
+<li>一个包含已选中文章Id的数组</li>
+</ol>
+<p>那么目前看来，单纯用redux来解决的话大概有两个解决方案：</p>
+<ol>
+<li><p>在state tree上新增加一个数组，里面包含所有被选中的文章（不是只有文章Id），然后把这个属性绑在post_list上。<br>这样一来我们需要重写post_selectors.js这个组件，在选中或者反选时调用一个新的action creator，而这个action<br>creator的作用就是根据参数传入的Id来对所有文章的数组进行过滤，把Id为参数传入的那个文章作为payload传给reducer，<br>最后reducer把那个文章加入到新书组内并且返回新的数组。</p>
+</li>
+<li><p>在post_list的componentWillMount时对所有文章的数组进行过滤，只保留Id包含在被选文章Id数组内的文章，然后对<br>其进行渲染。</p>
+</li>
+</ol>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>这两种解决办法都有一定的问题，第一种做法使得逻辑变得复杂，因为要在state上加入新的属性，并且需要加入新的<br>action creator以及reducer。第二种方法虽然看似简单，但是却使得组件的复用性变差了，如果我之后想做一个新的post_list<br>里面只显示没有选中的文章，那么就没办法服用这个组件，因为componentWillMount方法的逻辑不同。</p>
+<h2 id="4-解决方案"><a href="#4-解决方案" class="headerlink" title="4. 解决方案"></a>4. 解决方案</h2><p>在redux生态系统中，有这么个东西，叫做reselect，<a href="https://github.com/reactjs/reselect" target="_blank" rel="external">GitHub 连接</a>，这个<br>模块能很好的解决我们目前的问题。首先，我们知道post_list上需要的文章并不是新的文章，而是由所有文章和已选中文章Id的<br>数组进行过滤后得到的。如果state tree上的某个属性是由其他属性进行某种逻辑运算后得到的，那么我们就可以考虑使用reselect。</p>
+<h3 id="使用reselect"><a href="#使用reselect" class="headerlink" title="使用reselect"></a>使用reselect</h3><p>首先为了让文件目录更清晰，我们在根目录下新增加一个文件夹，叫selectors用来存放所有的selector，至于selector是什么，<br>我们马上就知道了，目前的文件目录大概是这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">|- actions/</span><br><span class="line">|--- types.js  //存放所有action.type</span><br><span class="line">|--- index.js   //action creators</span><br><span class="line">|- components/</span><br><span class="line">|- selectors/   //包含所有selector</span><br><span class="line">|--- select_post_selector.js    //负责生成被选中的文章</span><br><span class="line">|--- app.js    //入口组件</span><br><span class="line">|--- containers/</span><br><span class="line">|------ post_list.js //显示已被选中的文章</span><br><span class="line">|------ post_selectors.js    //所有文章，点击checkbox会加入被选中的文章列表</span><br><span class="line">|- reducers/</span><br><span class="line">|--- all_post_reducer.js  //返回所有文章</span><br><span class="line">|--- index.js     //combinedReducer</span><br><span class="line">|--- select_post_reducer.js   //返回被选中或者被反选的文章</span><br><span class="line">|-index.js  //主入口</span><br></pre></td></tr></table></figure>
+<p><strong> /selectors/select_post_selector.js </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import &#123; createSelector &#125; from &apos;reselect&apos;;</span><br><span class="line"></span><br><span class="line">const allPostSelector = state =&gt; state.posts;</span><br><span class="line">const selectedIdSelector = state =&gt; state.selectedIds;</span><br><span class="line"></span><br><span class="line">const getSelectedPosts = (posts, selectedIds) =&gt; &#123;</span><br><span class="line">    return posts.filter(post =&gt; selectedIds.includes(post.id));</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">export default createSelector(allPostSelector, selectedIdSelector, getSelectedPosts);</span><br></pre></td></tr></table></figure></p>
+<p>大概说一下，allPostSelector一个函数，它会在state tree上找到posts这个属性，也就是所有文章的数组，<br>selectedIdSelector和allPostSelector类似，会在state tree上找到selectedIds属性，也就是那个<br>包含所有被选文章Id的数组。</p>
+<p>getSelectedPosts也是一个函数，它接收多个参数，然后返回根据这些参数生成的新属性，这个属性最后会绑定<br>到state tree上。</p>
+<p>然后我们需要在post_list这一组件中使用这个用reselect生成的新属性<br><strong> /components/containers/post_list.js </strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;react&apos;;</span><br><span class="line">import &#123; connect &#125; from &apos;react-redux&apos;;</span><br><span class="line"></span><br><span class="line">import PostSelector from &apos;../../selectors/select_post_selector&apos;;</span><br><span class="line"></span><br><span class="line">class PostList extends Component &#123;</span><br><span class="line"></span><br><span class="line">    renderPostLists()&#123;</span><br><span class="line">        return this.props.selectedPosts.map(post=&gt;&#123;</span><br><span class="line">            return (</span><br><span class="line">                &lt;li className=&quot;list-group-item&quot; key=&#123;post.id&#125;&gt;&#123;post.title&#125;&lt;/li&gt;</span><br><span class="line">            )</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    render()&#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;h2&gt;已选中的文章&lt;/h2&gt;</span><br><span class="line">                &lt;ul className=&quot;list-group&quot;&gt;</span><br><span class="line">                    &#123;this.renderPostLists()&#125;</span><br><span class="line">                &lt;/ul&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function mapStateToProps(state)&#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        selectedPosts: PostSelector(state)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default connect(mapStateToProps)(PostList);</span><br></pre></td></tr></table></figure></p>
+<p>这个组件其实基本和使用redux对state进行绑定后的Smart组件没什么区别，唯一一点值得<br>注意的是第30行，<code>selectedPosts: PostSelector(state)</code>这里。我们只是用刚才写好<br>的selector对state进行加工，用已有的属性（所有post和被选postId）来生成这个新的属性。</p>
+<h2 id="5-小结"><a href="#5-小结" class="headerlink" title="5. 小结"></a>5. 小结</h2><p>运行一下，一切都没问题，而且这样一来，post_list这个组件也可以很好的复用了。值得注意的<br>是，现在这个小例子只是为了向大家简单介绍一下reselect这个模块，或许你感觉不到使用reselect<br>的必要性，但是，要知道这个例子中的state tree结构非常简单，但是当在实际开发中，业务逻辑往往<br>会变得十分复杂，这也就导致了state tree结构也会变得复杂，通过这种方式来简化state tree将会<br>是一种非常好的优化手段。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/react-redux-reselect/" rel="tag">#react, redux, reselect</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/ciqwj7ift0002h8wzr7eo9lrl/" rel="next" title="浅谈React Router中的browserHistory和hashHistory">
+                <i class="fa fa-chevron-left"></i> 浅谈React Router中的browserHistory和hashHistory
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/ciqwj7ig00006h8wztyrrnazx/" rel="prev" title="es6学习笔记之一 数组篇">
+                es6学习笔记之一 数组篇 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="ciqwj7igb000ch8wz9phqcxpx/"
+           data-title="reselect与redux" data-url="http://yoursite.com/ciqwj7igb000ch8wz9phqcxpx/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Jasen PAN" />
+          <p class="site-author-name" itemprop="name">Jasen PAN</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-reselect简介"><span class="nav-number">1.</span> <span class="nav-text">1. reselect简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-一个简单的例子"><span class="nav-number">2.</span> <span class="nav-text">2. 一个简单的例子</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#现在我们有一个简单的文章系统，大概是这样的："><span class="nav-number">2.1.</span> <span class="nav-text">现在我们有一个简单的文章系统，大概是这样的：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件目录大概这样："><span class="nav-number">2.2.</span> <span class="nav-text">文件目录大概这样：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码："><span class="nav-number">2.3.</span> <span class="nav-text">代码：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码概述："><span class="nav-number">2.4.</span> <span class="nav-text">代码概述：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一点题外话"><span class="nav-number">2.5.</span> <span class="nav-text">一点题外话</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-补全post-list"><span class="nav-number">3.</span> <span class="nav-text">3. 补全post_list</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#state-tree已绑定的属性"><span class="nav-number">3.1.</span> <span class="nav-text">state tree已绑定的属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题"><span class="nav-number">3.2.</span> <span class="nav-text">问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-解决方案"><span class="nav-number">4.</span> <span class="nav-text">4. 解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用reselect"><span class="nav-number">4.1.</span> <span class="nav-text">使用reselect</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-小结"><span class="nav-number">5.</span> <span class="nav-text">5. 小结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jasen PAN</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"JasenpanHexo"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';                
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = true;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = data.url;
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '' && data_content != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title < 0 && index_content < 0 ){
+                                isMatch = false;
+                            } else {
+                                if (index_content < 0) {
+                                    index_content = 0;
+                                }
+                                if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            }
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+                            
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').mousedown(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+  
+
+  
+
+  
+
+</body>
+</html>
