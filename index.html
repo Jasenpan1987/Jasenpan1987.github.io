@@ -271,7 +271,153 @@
             
               
                 
-                <a class="post-title-link" href="/ciqwj7ifk0000h8wzu0vuce6x/" itemprop="url">
+                <a class="post-title-link" href="/cir0xtdc700008gwzzd5e2ewn/" itemprop="url">
+                  es6学习笔记之三 箭头函数
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-25T01:24:29+10:00" content="2016-07-25">
+              2016-07-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/es6学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">es6学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/cir0xtdc700008gwzzd5e2ewn/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="cir0xtdc700008gwzzd5e2ewn/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>这篇学习笔记继续上一篇，为大家介绍es6给大家带来的一些实用功能，今天我们来简单说说箭头函数（=&gt;）。我个人<br>非常喜欢这个功能，因为它可以使代码变得更简单，更容易阅读，而且某些时候还可以为我们解决javascript的一个<br>很头疼的问题：this问题。</p>
+<h2 id="1-一些题外话"><a href="#1-一些题外话" class="headerlink" title="1. 一些题外话"></a>1. 一些题外话</h2><p>我们都知道es6是近两年才开始普及的javascript版本，虽然目前的几大浏览器都开始支持es6，但是旧版本的浏览器<br>和一些其他平台上却没有办法支持es6，那是不是这意味着我们如果要从兼容性方面考虑的话，就不应该使用es6了呢？<br>并不是！因为有这么一款神器的工具叫babel，它可以将es6甚至是es7的一部分新语法转换成es5，让我们简单来看一下<br>babel的网站：英文版：<a href="http://babeljs.io/" target="_blank" rel="external">http://babeljs.io/</a>，中文版：<a href="http://babeljs.cn/" target="_blank" rel="external">http://babeljs.cn/</a><br>这里需要讲一下，我建议如果你决定使用es6的话，就一定要会用babel，而幸运的是，网上babel的教程非常多，而且<br>babel本身也不是很难上手。这里我们先进入babel中文网站，然后点击最上面的“在线实验”，你会看到有两个在线编辑器<br><img src="/cir0xtdc700008gwzzd5e2ewn/babel1.png" alt="babel1.png" title=""></p>
+<p>我们可以在左边的编辑器里打入我们想测试的es6代码，右边就会输出babel转换以后的es5代码，我们可以用这种方法<br>了解babel是如何把我们的es6代码进行转换的，举例来说，我在左边输入<code>let a = &#39;hello world&#39;</code>，右边就会显<br>示出<code>var a = &#39;hello world&#39;</code>，是不是很方便。但是要注意的是，这个在线实验只是个“山寨版”，真正的babel比<br>它要强大的多，所以千万不要把写好的es6代码简单的复制，粘贴到这里，然后把转换出来的es5贴回去。如果想使用<br>babel，最好还是使用它的命令行工具，官网里面有详细的介绍。</p>
+<h2 id="2-用箭头函数简化代码"><a href="#2-用箭头函数简化代码" class="headerlink" title="2. 用箭头函数简化代码"></a>2. 用箭头函数简化代码</h2><h3 id="2-1-初识箭头函数"><a href="#2-1-初识箭头函数" class="headerlink" title="2.1 初识箭头函数"></a>2.1 初识箭头函数</h3><p>我们先来写一个最最简单的加法function，<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const double = function(a)&#123;</span><br><span class="line">    return a*2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.log(double(3)); //这里会输出6</span><br></pre></td></tr></table></figure><br>大家来看一下这个function，就算是这么简单的逻辑，我们还是一样要写function，return，各种大括号和小括号。是<br>不是感觉特别麻烦。这就是箭头函数存在的一个意义。我们来看一下箭头函数的版本应该怎么写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const addition = (a)=&gt;&#123;</span><br><span class="line">    return a*2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">console.log(double(3)); //这里会输出6</span><br></pre></td></tr></table></figure>
+<p>是不是感觉清爽了一点？其实这里只是刚开始，其实还没怎么开始简化。我们去掉function这个词，但后在参数后面加上一个<br>粗箭头（=&gt;），其实就是一个等于号加上一个大于号，就这么简单。其实它不仅仅省去了function这个单词，请仔细看箭头这<br>段代码，是不是感觉有点像函数式？箭头左边是输入，右边是输出，在这个例子里面，就是输入一个数，然后输出它的两倍。而<br>function本身不就是函数的意思么？这样是不是比<code>function(a){...}</code>更直观了呢？其实javascript里面有一个流派，<br>叫做函数式编程，这个流派会大量的使用这种函数式，让代码尽量符合输入=&gt;输出这种函数的理念，同时尽可能的少使用面向对<br>象的概念，代码变得更纯净并且更好预测（给你一个函数，相同的输入一定会产出相同的输出）。</p>
+<h3 id="2-2-进一步简化"><a href="#2-2-进一步简化" class="headerlink" title="2.2 进一步简化"></a>2.2 进一步简化</h3><p>如果你并不关心所谓函数式编程，只是想简化代码，而且觉得仅仅这样还不过瘾的话，别着急，我们的代码其实还能继续简化，这<br>里说一下箭头函数的第二个简化规则：如果箭头右边的函数体只有一行代码并且需要return一个东西的话，那么我们可以去掉大括<br>号和return关键字，代码就变成了这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const addition = (a)=&gt; a*2;</span><br><span class="line"></span><br><span class="line">console.log(double(3)); //这里会输出6</span><br></pre></td></tr></table></figure></p>
+<p>对，就一行，更简洁了吧？这里再强调一下，你的代码体只有一行的时候，才能去掉大括号，如果多于一行，那么大括号和return<br>都必须保留。第二，如果你像上面一样，只写一行的话，那就意味着=&gt;右边是你要return的内容，并且一定会return。还没完<br>呢，箭头函数还有第三个简化规则，就是如果你函数的参数（arguments）只有一个的话，那么你可以去掉小括号，代码就变成<br>了这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const addition = a=&gt; a*2;</span><br><span class="line"></span><br><span class="line">console.log(double(3)); //这里会输出6</span><br></pre></td></tr></table></figure><br>怎么样？这样够简洁了吧！原来的function{…}直接变成了一个算术式。</p>
+<h2 id="3-用箭头函数改变this指针"><a href="#3-用箭头函数改变this指针" class="headerlink" title="3. 用箭头函数改变this指针"></a>3. 用箭头函数改变this指针</h2><p>还是照例先上一段代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const person = &#123;</span><br><span class="line">    name: &apos;John&apos;,</span><br><span class="line">    skills: [&apos;javascript&apos;, &apos;html&apos;, &apos;css&apos;],</span><br><span class="line">    sayHello: function()&#123;</span><br><span class="line">        return this.skills.forEach(function(skill)&#123;</span><br><span class="line">            console.log(this.name+&apos; knew &apos;+ skill);</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line">person.sayHello();</span><br></pre></td></tr></table></figure></p>
+<p>这段代码很简单，就是我们定义了一个object，然后有name和skills两个属性，其中skills是一个数组，里面有三个字符串，<br>然后我们在这个object上面定义一个sayHello的方法，对于skills数组里的每一个skill输出一段话，这里可以看到，我们<br>用了之前说过的forEach方法对数组进行迭代。但是，在我们执行这段代码的时候，会发现输出结果是这样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">knew javascript</span><br><span class="line">knew html</span><br><span class="line">knew css</span><br></pre></td></tr></table></figure><br><code>this.name</code>并没有输出，我们在<code>console.log(this.name+&#39; knew &#39;+ skill);</code>之前加上<code>console.log(this);</code>会<br>发现，this输出的是window或者global。这其实是因为forEach里面的那个function是回调函数，回调函数的this指向的是全<br>局上下文，在node环境里运行就是global，在浏览器运行就是window。</p>
+<p>如果想让它正常的输出，我们通常会用这两种办法：</p>
+<ol>
+<li><p>bind改变this指针：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">const person = &#123;</span><br><span class="line">    name: &apos;John&apos;,</span><br><span class="line">    skills: [&apos;javascript&apos;, &apos;html&apos;, &apos;css&apos;],</span><br><span class="line">    sayHello: function()&#123;</span><br><span class="line">        return this.skills.forEach((function(skill)&#123;</span><br><span class="line">            console.log(this);</span><br><span class="line">            console.log(this.name+&apos; knew &apos;+ skill);</span><br><span class="line">        &#125;).bind(this))</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对this进行缓存：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const person = &#123;</span><br><span class="line">    name: &apos;John&apos;,</span><br><span class="line">    skills: [&apos;javascript&apos;, &apos;html&apos;, &apos;css&apos;],</span><br><span class="line">    sayHello: function()&#123;</span><br><span class="line">        var self = this;</span><br><span class="line">        return this.skills.forEach(function(skill)&#123;</span><br><span class="line">            console.log(self);</span><br><span class="line">            console.log(self.name+&apos; knew &apos;+ skill);</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这两种方法我们应该都很熟悉吧。好，我们来改写一下sayHello这个方法，用箭头函数来代替function：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const person = &#123;</span><br><span class="line">    name: &apos;John&apos;,</span><br><span class="line">    sayHello: function()&#123;</span><br><span class="line">        return this.skills.forEach(skill=&gt;&#123;</span><br><span class="line">                    console.log(`$&#123;this.name&#125; knew $&#123;skill&#125;`);</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>当你用之前的<code>person.sayHello()</code>方法调用时，你会发现这个方法输出的是正确的，而且如果你试着在箭头函数里面输出<br>this时，发现它输出的是peron这个对象。这就是箭头函数的另一大特性，改变this指针，把this改变成这个function外面<br>一层的执行上下文。也可以这么理解，箭头函数不会创建独立的上下文，而是引用的外层的上下文。</p>
+<p>我们再来看一个例子，这个例子证明了改变this指针未必总是好的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">const person = &#123;</span><br><span class="line">    name: &apos;john&apos;,</span><br><span class="line">    getName: function()&#123;</span><br><span class="line">        return this.name;</span><br><span class="line">    &#125;,</span><br><span class="line">    getNameArrow: ()=&gt;this.name</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">console.log(person.getName());//这里正常输出john</span><br><span class="line">console.log(person.getNameArrow());//这里无法输出</span><br></pre></td></tr></table></figure><br>getName和getNameArrow唯一的区别就是一个用了箭头函数，一个用了普通的function。而用了箭头函数的getNameArrow中<br>this指针指向的是外层上下文，也就是全局上下文，而全局上下文里面没有name这个属性，所以无法正常输出。</p>
+<h2 id="4-适合与不适合用箭头函数的情况"><a href="#4-适合与不适合用箭头函数的情况" class="headerlink" title="4. 适合与不适合用箭头函数的情况"></a>4. 适合与不适合用箭头函数的情况</h2><p>从上面的例子，我们能看出来，不是所有时候都要用箭头函数的，这里我大概向大家介绍一下我一般会在什么时候用箭头函数，什么<br>时候舍弃箭头函数而用普通的function函数</p>
+<p>1）回调函数中适合使用箭头函数。这样可以使代码变得更简洁，更容易理解，比如forEach，map这些方法都需要传入一个回调函数<br>这就是一个使用箭头函数的好机会。</p>
+<p>2） 高阶函数适合使用箭头函数，我们来看个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//这是不用箭头函数的写法</span><br><span class="line">const add = function(a)&#123;</span><br><span class="line">    return function(b)&#123;</span><br><span class="line">        return a+b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">console.log(add(2)(3));</span><br><span class="line"></span><br><span class="line">//这是使用箭头函数的写法</span><br><span class="line">const add = a=&gt;b=&gt;a+b;</span><br><span class="line">console.log(add(2)(3));</span><br><span class="line"></span><br></pre></td></tr></table></figure><br>代码看着是不是简单了很多。</p>
+<p>3）在涉及到this时，除非需要使用apply，call或者bind去改变this指针，否则尽量不要用箭头函数。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>今天和大家简单的介绍了一下es6的又一个新功能：箭头函数，为什么要使用箭头函数，以及使用箭头函数简化代码的几个规则，并且给<br>大家看了箭头函数的另外一个功能：改变this指针。并且简单聊了一下我个人什么时候会用箭头函数，什么时候不会用，希望大家在以后<br>的工作和学习中可以尽量去尝试使用箭头函数，这样既可以简化代码，又可以使代码变得更清晰。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/cir0xtdcm00058gwzz6s5l8ab/" itemprop="url">
                   es6学习笔记之二 const，let和模版字符串
                 </a>
               
@@ -315,8 +461,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/ciqwj7ifk0000h8wzu0vuce6x/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="ciqwj7ifk0000h8wzu0vuce6x/" itemprop="commentsCount"></span>
+                <a href="/cir0xtdcm00058gwzz6s5l8ab/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="cir0xtdcm00058gwzz6s5l8ab/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -342,7 +488,7 @@
         
           <p>这篇学习笔记依然是介绍es6的一些常用的新功能，这一篇会介绍两种新功能：1. const和let，2.模板字符串。之所以把这两个完全不相关的<br>概念放在一起是因为这两部分的内容不是很多，而且很容易理解。同时，我也会介绍一些其他es6相关的内容。</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/ciqwj7ifk0000h8wzu0vuce6x/#more" rel="contents">
+            <a class="btn" href="/cir0xtdcm00058gwzz6s5l8ab/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -393,7 +539,7 @@
             
               
                 
-                <a class="post-title-link" href="/ciqwj7ig00006h8wztyrrnazx/" itemprop="url">
+                <a class="post-title-link" href="/cir0xtdcg00028gwzxl6sxw7k/" itemprop="url">
                   es6学习笔记之一 数组篇
                 </a>
               
@@ -437,8 +583,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/ciqwj7ig00006h8wztyrrnazx/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="ciqwj7ig00006h8wztyrrnazx/" itemprop="commentsCount"></span>
+                <a href="/cir0xtdcg00028gwzxl6sxw7k/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="cir0xtdcg00028gwzxl6sxw7k/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -464,7 +610,7 @@
         
           <p>es6也称为es2015，是EcmaScript的第六个大版本，虽然已经推出很久了，但是我还是发现有很多码农仍然不使用es6的一些新特性。<br>我觉的其实没必要对这些新功能感到恐惧，要知道任何新功能的加入都是为了使这门编程语言更加完善。而且，能进入es6的新功能大多<br>是一些在业务中需求量很大的功能，而且很多库也都有着自己的实现。这个系列就是要向大家介绍一下es6为我们带来的一些新功能，而<br>且我觉的掌握这些功能基本能搞定平时80%的业务需求。</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/ciqwj7ig00006h8wztyrrnazx/#more" rel="contents">
+            <a class="btn" href="/cir0xtdcg00028gwzxl6sxw7k/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -515,7 +661,7 @@
             
               
                 
-                <a class="post-title-link" href="/ciqwj7igb000ch8wz9phqcxpx/" itemprop="url">
+                <a class="post-title-link" href="/cir0xtdco00068gwzvk875rz6/" itemprop="url">
                   reselect与redux
                 </a>
               
@@ -559,8 +705,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/ciqwj7igb000ch8wz9phqcxpx/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="ciqwj7igb000ch8wz9phqcxpx/" itemprop="commentsCount"></span>
+                <a href="/cir0xtdco00068gwzvk875rz6/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="cir0xtdco00068gwzvk875rz6/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -586,7 +732,7 @@
         
           <h2 id="1-reselect简介"><a href="#1-reselect简介" class="headerlink" title="1. reselect简介"></a>1. reselect简介</h2><p>reselect是一个与redux配合使用的一个模块，它可根据state上的多个已有的属性来生成一个新的属性，<br>这可以为简化代码逻辑带来很大的帮助。比如我们在state上有users这个属性，而在每个user上又有性别<br>这个属性，那么我们可以使用reselect来为我们分别生成性别为男和女的新属性，而且也不需要加入新的<br>reducer和action。</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/ciqwj7igb000ch8wz9phqcxpx/#more" rel="contents">
+            <a class="btn" href="/cir0xtdco00068gwzvk875rz6/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -637,7 +783,7 @@
             
               
                 
-                <a class="post-title-link" href="/ciqwj7ift0002h8wzr7eo9lrl/" itemprop="url">
+                <a class="post-title-link" href="/cir0xtdcr00088gwz0hlut6xz/" itemprop="url">
                   浅谈React Router中的browserHistory和hashHistory
                 </a>
               
@@ -681,8 +827,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/ciqwj7ift0002h8wzr7eo9lrl/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="ciqwj7ift0002h8wzr7eo9lrl/" itemprop="commentsCount"></span>
+                <a href="/cir0xtdcr00088gwz0hlut6xz/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="cir0xtdcr00088gwz0hlut6xz/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -708,7 +854,7 @@
         
           <h2 id="React-Router简述"><a href="#React-Router简述" class="headerlink" title="React Router简述"></a>React Router简述</h2><p>React router，即路由，是react生态系统中一个重要的组成部分。它可以使单页应用具有类似于多页应用的<br>路由系统，即前端路由。绝对多数教程中对于Router History中的browserHisotry和hashHistory都是<br>一笔带过：不要用hashHistory，用brwoserHistory，其实在开发中，并没有那么简单，hashhistory有着<br>一定的应用场景，而browserHistory也会有几个坑。</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/ciqwj7ift0002h8wzr7eo9lrl/#more" rel="contents">
+            <a class="btn" href="/cir0xtdcr00088gwz0hlut6xz/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -759,7 +905,7 @@
             
               
                 
-                <a class="post-title-link" href="/ciqwj7ig60009h8wz4cc3onhb/" itemprop="url">
+                <a class="post-title-link" href="/cir0xtdh9000w8gwzh63p50hz/" itemprop="url">
                   Node中的事件系统
                 </a>
               
@@ -803,8 +949,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/ciqwj7ig60009h8wz4cc3onhb/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="ciqwj7ig60009h8wz4cc3onhb/" itemprop="commentsCount"></span>
+                <a href="/cir0xtdh9000w8gwzh63p50hz/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="cir0xtdh9000w8gwzh63p50hz/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -830,7 +976,7 @@
         
           <h2 id="Node中的事件发布与订阅"><a href="#Node中的事件发布与订阅" class="headerlink" title="Node中的事件发布与订阅"></a>Node中的事件发布与订阅</h2><p>事件的发布和订阅系统(event)是NodeJS中的一个极为重要的系统，但是这个系统对于很多刚入坑的小伙伴来说可能难以理解，<br>这篇博客会为刚入坑的小伙伴们简单介绍一下事件（event），并且一步一步的写一个“山寨版”的事件系统。</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/ciqwj7ig60009h8wz4cc3onhb/#more" rel="contents">
+            <a class="btn" href="/cir0xtdh9000w8gwzh63p50hz/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -881,7 +1027,7 @@
             
               
                 
-                <a class="post-title-link" href="/ciqwj7ig20007h8wzow193t25/" itemprop="url">
+                <a class="post-title-link" href="/cir0xtdcu000b8gwz5ilkf5bv/" itemprop="url">
                   Node中的module和require
                 </a>
               
@@ -925,8 +1071,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/ciqwj7ig20007h8wzow193t25/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="ciqwj7ig20007h8wzow193t25/" itemprop="commentsCount"></span>
+                <a href="/cir0xtdcu000b8gwz5ilkf5bv/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="cir0xtdcu000b8gwz5ilkf5bv/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -952,7 +1098,7 @@
         
           <h2 id="Node中的模块"><a href="#Node中的模块" class="headerlink" title="Node中的模块"></a>Node中的模块</h2><p>在Node中，很大的一个组成部分就是模块，其中有Node中的core模块，有从npm上下载的第三方模块以及我们自己写的模块。<br>NodeJS在模块化方面使用的是exports和require来导入和导出。</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/ciqwj7ig20007h8wzow193t25/#more" rel="contents">
+            <a class="btn" href="/cir0xtdcu000b8gwz5ilkf5bv/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1023,7 +1169,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-count">7</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
